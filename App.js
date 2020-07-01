@@ -7,6 +7,7 @@ import {createAppContainer} from 'react-navigation';
 import HomeScreen from './src/HomeScreen';
 import SystemDetail from './src/SystemDetail';
 import EditSystemDetail from './src/EditSystemDetail';
+import Statictical from './src/Statictical';
 import {Provider} from 'react-redux';
 import store from './src/redux/store';
 
@@ -25,6 +26,12 @@ const HomeContainer = createStackNavigator({
   },
   EditSystemDetail: {
     screen: EditSystemDetail,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  Statictical: {
+    screen: Statictical,
     navigationOptions: {
       headerShown: false,
     },

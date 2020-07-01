@@ -66,7 +66,6 @@ class SystemDetail extends Component {
     } else {
       DATA = reducer.device_type_motor;
     }
-    console.log(index);
     return (
       <View style={{flex: 1}}>
         <HeaderComponent style={{flex: 0.2}} />

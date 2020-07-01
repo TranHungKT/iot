@@ -81,11 +81,14 @@ class EditSystemDetail extends Component {
   chooseMode = (mode) => {
     this.setState({mode: mode});
     this.toggleAir();
-    console.log('mode', mode);
   };
 
-  getDevice = (index, name) => () => {
+  getDevice = (index, name) => {
     this.props.getDeviceDetail(index, name);
+    this.props.navigation.navigate('Statictical', {
+      index: index,
+      name: name,
+    });
   };
   render() {
     const nameTitle = [
@@ -295,7 +298,7 @@ class EditSystemDetail extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={this.getDevice(index, name)}>
+            onPress={() => this.getDevice(index, name)}>
             <Text style={styles.textButton}>Thống kê</Text>
           </TouchableOpacity>
         </View>

@@ -32,7 +32,9 @@ export default class CardDetail extends Component {
           <Text style={{textAlign: 'left'}}>
             Cường độ bóng đèn : {intensity}
           </Text>
-          <Text style={{textAlign: 'left'}}>Nhiệt độ bóng đèn : {temp}</Text>
+          <Text style={{textAlign: 'left'}}>
+            Nhiệt độ bóng đèn : {intensity}
+          </Text>
           <Text style={{textAlign: 'left'}}>Trạng thái bóng đèn: {status}</Text>
         </Body>
       ) : (

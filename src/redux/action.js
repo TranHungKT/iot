@@ -48,7 +48,6 @@ export const getDeviceTypeLight = () => (dispatch) => {
     })
     .catch((err) => console.log(err));
 };
-
 export const getDeviceDetail = (index, device_name) => (dispatch) => {
   let device_type = '';
   if (index == 0) {
