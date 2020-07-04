@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 18,
+    fontWeight: 'bold',
   },
   loadData: {
     flex: 0.1,

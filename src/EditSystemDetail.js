@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Dimensions,
   TouchableHighlight,
+  Alert,
 } from 'react-native';
 import HeaderComponent from './component/HeaderComponent';
 import {ListItem, Left, Body, Right, Icon, Switch} from 'native-base';
@@ -68,10 +69,8 @@ class EditSystemDetail extends Component {
     this.state = {
       status_of_air: false,
       mode: '',
-      temp: '',
-      humid: '',
-      intensity: '',
-      time: '',
+      value1: '',
+      value2: '',
     };
   }
   toggleAir = () => {
@@ -90,6 +89,57 @@ class EditSystemDetail extends Component {
       name: name,
     });
   };
+
+  changeDevice = (name, mode, value1, value2) => {
+    if (
+      this.props.navigation.state.params.index == 1 ||
+      this.props.navigation.state.params.index == 2
+    ) {
+      value2 = -1;
+    }
+    console.log('value2', this.state.value2);
+    fetch('https://iotserver192.herokuapp.com/changeSettingNoLogin', {
+      method: 'POST',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify({
+        device_name: `${name}`,
+        mode: `${mode}`,
+        sensorValue1: `${value1}`,
+        sensorValue2: `${value2}`,
+      }),
+    })
+      .then((response) => {
+        if (response.status == 200) {
+          Alert.alert(
+            'Thông báo',
+            'Điều chỉnh thành công',
+            [
+              {
+                text: 'Cancel',
+              },
+              {text: 'OK'},
+            ],
+            {cancelable: false},
+          );
+        } else {
+          Alert.alert(
+            'Thông báo',
+            'Bạn hãy điền đầy đủ thông tin',
+            [
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+              },
+              {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ],
+            {cancelable: false},
+          );
+        }
+      })
+      .catch((err) => console.log('err', err));
+  };
+
   render() {
     const nameTitle = [
       'HỆ THỐNG MÁY LẠNH',
@@ -139,8 +189,8 @@ class EditSystemDetail extends Component {
             <Right>
               <TextInput
                 placeholder="Type here"
-                onChangeText={(humid) => this.setState({humid})}
-                value={this.state.humid}></TextInput>
+                onChangeText={(value1) => this.setState({value1})}
+                value={this.state.value1}></TextInput>
             </Right>
           </ListItem>
           <ListItem icon>
@@ -158,8 +208,8 @@ class EditSystemDetail extends Component {
               <TextInput
                 style={{paddingLeft: 10}}
                 placeholder="Type here"
-                onChangeText={(temp) => this.setState({temp})}
-                value={this.state.temp}></TextInput>
+                onChangeText={(value2) => this.setState({value2})}
+                value={this.state.value2}></TextInput>
             </Right>
           </ListItem>
         </View>
@@ -207,8 +257,8 @@ class EditSystemDetail extends Component {
             <Right>
               <TextInput
                 placeholder="Type here"
-                onChangeText={(intensity) => this.setState({intensity})}
-                value={this.state.intensity}></TextInput>
+                onChangeText={(value1) => this.setState({value1})}
+                value={this.state.value1}></TextInput>
             </Right>
           </ListItem>
         </View>
@@ -256,27 +306,13 @@ class EditSystemDetail extends Component {
             <Right>
               <TextInput
                 placeholder="Type here"
-                onChangeText={(intensity) => this.setState({intensity})}
-                value={this.state.intensity}></TextInput>
-            </Right>
-          </ListItem>
-          <ListItem icon>
-            <Left>
-              <Icon name={'ios-time'} style={{fontSize: 22}} />
-            </Left>
-            <Body>
-              <Text>Thời gian vận hành</Text>
-            </Body>
-            <Right>
-              <TextInput
-                placeholder="Type here"
-                onChangeText={(time) => this.setState({time})}
-                value={this.state.time}></TextInput>
+                onChangeText={(value1) => this.setState({value1})}
+                value={this.state.value1}></TextInput>
             </Right>
           </ListItem>
         </View>
       );
-
+    const {mode, value1, value2} = this.state;
     return (
       <ScrollView
         style={{flex: 1}}
@@ -293,7 +329,9 @@ class EditSystemDetail extends Component {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.changeDevice(name, mode, value1, value2)}>
             <Text style={styles.textButton}>Điều chỉnh</Text>
           </TouchableOpacity>
           <TouchableOpacity

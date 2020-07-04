@@ -52,6 +52,9 @@ class HomeScreen extends Component {
       index: index,
     });
   };
+  moveToSetting = () => {
+    this.props.navigation.navigate('SettingPage');
+  };
   render() {
     return (
       <View style={{flex: 1}}>
@@ -81,6 +84,13 @@ class HomeScreen extends Component {
               }}
               style={{flex: 0.5}}>
               <CardSystem data={2} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                this.moveToSetting();
+              }}
+              style={{flex: 0.5}}>
+              <CardSystem data={3} />
             </TouchableOpacity>
           </View>
         </View>

@@ -13,7 +13,7 @@ export default class CardDetail extends Component {
     let name = this.props.item ? item.device_id : undefined;
     let temp = this.props.item ? item.temperature : undefined;
     let humid = this.props.item ? item.humid : undefined;
-    let intensity = this.props.item ? item.intensity : undefined;
+    let intensity = this.props.item ? item.light_value : undefined;
     let status = this.props.item
       ? item.status == 1
         ? 'on'
@@ -31,9 +31,6 @@ export default class CardDetail extends Component {
         <Body>
           <Text style={{textAlign: 'left'}}>
             Cường độ bóng đèn : {intensity}
-          </Text>
-          <Text style={{textAlign: 'left'}}>
-            Nhiệt độ bóng đèn : {intensity}
           </Text>
           <Text style={{textAlign: 'left'}}>Trạng thái bóng đèn: {status}</Text>
         </Body>

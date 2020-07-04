@@ -8,6 +8,7 @@ import HomeScreen from './src/HomeScreen';
 import SystemDetail from './src/SystemDetail';
 import EditSystemDetail from './src/EditSystemDetail';
 import Statictical from './src/Statictical';
+import SettingPage from './src/SettingPage';
 import {Provider} from 'react-redux';
 import store from './src/redux/store';
 
@@ -32,6 +33,12 @@ const HomeContainer = createStackNavigator({
   },
   Statictical: {
     screen: Statictical,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  SettingPage: {
+    screen: SettingPage,
     navigationOptions: {
       headerShown: false,
     },
