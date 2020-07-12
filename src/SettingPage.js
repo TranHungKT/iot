@@ -1,13 +1,14 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Alert
 } from 'react-native';
 import HeaderComponent from './component/HeaderComponent';
-import {ListItem, Left, Body, Right, Icon} from 'native-base';
+import { ListItem, Left, Body, Right, Icon } from 'native-base';
 
 const styles = StyleSheet.create({
   text: {
@@ -39,19 +40,60 @@ export default class SettingPage extends Component {
       temp: '',
     };
   }
-  save = () => {};
+  save = (humid_of_air, humid_of_land, light_value, temp) => {
+    fetch('https://iotserver192.herokuapp.com/setDefaultNoLogin', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        humid: `${humid_of_air}`,
+        plant: `${humid_of_land}`,
+        temp: `${temp}`,
+        light: `${light_value}`
+      })
+    })
+      .then((response) => {
+        if (response.status == 200) {
+          Alert.alert(
+            'Thông báo',
+            'Điều chỉnh thành công',
+            [
+              {
+                text: 'Cancel',
+              },
+              { text: 'OK' },
+            ],
+            { cancelable: false },
+          )
+        } else {
+          Alert.alert(
+            'Thông báo',
+            'Bạn hãy điền đầy đủ thông tin',
+            [
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+              },
+              { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: false },
+          );
+        }
+      })
+      .catch(err => console.log(err))
+  };
 
   render() {
-    const {humid_of_air, humid_of_land, light_value, temp} = this.state;
+    const { humid_of_air, humid_of_land, light_value, temp } = this.state;
     return (
-      <View style={{flex: 1}}>
-        <HeaderComponent style={{flex: 0.2}} />
+      <View style={{ flex: 1 }}>
+        <HeaderComponent style={{ flex: 0.2 }} />
         <View style={styles.title}>
           <Text style={styles.text}>CÀI ĐẶT</Text>
         </View>
         <ListItem icon>
           <Left>
-            <Icon name={'water'} type="Entypo" style={{fontSize: 22}} />
+            <Icon name={'water'} type="Entypo" style={{ fontSize: 22 }} />
           </Left>
           <Body>
             <Text>Ngưỡng độ ẩm không (%)</Text>
@@ -59,13 +101,14 @@ export default class SettingPage extends Component {
           <Right>
             <TextInput
               placeholder="Type here"
-              onChangeText={(humid_of_air) => this.setState({humid_of_air})}
-              value={humid_of_air}></TextInput>
+              onChangeText={(humid_of_air) => this.setState({ humid_of_air })}
+              value={humid_of_air}
+              keyboardType='decimal-pad'></TextInput>
           </Right>
         </ListItem>
         <ListItem icon>
           <Left>
-            <Icon name={'water'} type="Entypo" style={{fontSize: 22}} />
+            <Icon name={'water'} type="Entypo" style={{ fontSize: 22 }} />
           </Left>
           <Body>
             <Text>Ngưỡng độ ẩm đất(%)</Text>
@@ -73,8 +116,9 @@ export default class SettingPage extends Component {
           <Right>
             <TextInput
               placeholder="Type here"
-              onChangeText={(humid_of_land) => this.setState({humid_of_land})}
-              value={humid_of_land}></TextInput>
+              onChangeText={(humid_of_land) => this.setState({ humid_of_land })}
+              value={humid_of_land}
+              keyboardType='decimal-pad'></TextInput>
           </Right>
         </ListItem>
         <ListItem icon>
@@ -82,7 +126,7 @@ export default class SettingPage extends Component {
             <Icon
               name={'lightbulb'}
               type="FontAwesome5"
-              style={{fontSize: 22}}
+              style={{ fontSize: 22 }}
             />
           </Left>
           <Body>
@@ -91,8 +135,9 @@ export default class SettingPage extends Component {
           <Right>
             <TextInput
               placeholder="Type here"
-              onChangeText={(light_value) => this.setState({light_value})}
-              value={light_value}></TextInput>
+              onChangeText={(light_value) => this.setState({ light_value })}
+              value={light_value}
+              keyboardType='decimal-pad'></TextInput>
           </Right>
         </ListItem>
         <ListItem icon>
@@ -100,7 +145,7 @@ export default class SettingPage extends Component {
             <Icon
               type="FontAwesome5"
               name="temperature-high"
-              style={{fontSize: 22}}
+              style={{ fontSize: 22 }}
             />
           </Left>
           <Body>
@@ -109,12 +154,13 @@ export default class SettingPage extends Component {
           <Right>
             <TextInput
               placeholder="Type here"
-              onChangeText={(temp) => this.setState({temp})}
-              value={temp}></TextInput>
+              onChangeText={(temp) => this.setState({ temp })}
+              value={temp}
+              keyboardType='decimal-pad'></TextInput>
           </Right>
         </ListItem>
 
-        <TouchableOpacity onPress={this.save} style={styles.button}>
+        <TouchableOpacity onPress={() => this.save(humid_of_air, humid_of_land, light_value, temp)} style={styles.button}>
           <Text>SAVE</Text>
         </TouchableOpacity>
       </View>

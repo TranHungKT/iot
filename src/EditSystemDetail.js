@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -11,9 +11,9 @@ import {
   Alert,
 } from 'react-native';
 import HeaderComponent from './component/HeaderComponent';
-import {ListItem, Left, Body, Right, Icon, Switch} from 'native-base';
-import {getDeviceDetail} from './redux/action';
-import {connect} from 'react-redux';
+import { ListItem, Left, Body, Right, Icon, Switch } from 'native-base';
+import { getDeviceDetail } from './redux/action';
+import { connect } from 'react-redux';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
@@ -74,11 +74,11 @@ class EditSystemDetail extends Component {
     };
   }
   toggleAir = () => {
-    this.setState((prevState) => ({status_of_air: !prevState.status_of_air}));
+    this.setState((prevState) => ({ status_of_air: !prevState.status_of_air }));
   };
 
   chooseMode = (mode) => {
-    this.setState({mode: mode});
+    this.setState({ mode: mode });
     this.toggleAir();
   };
 
@@ -100,7 +100,7 @@ class EditSystemDetail extends Component {
     console.log('value2', this.state.value2);
     fetch('https://iotserver192.herokuapp.com/changeSettingNoLogin', {
       method: 'POST',
-      headers: {'content-type': 'application/json'},
+      headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         device_name: `${name}`,
         mode: `${mode}`,
@@ -117,9 +117,9 @@ class EditSystemDetail extends Component {
               {
                 text: 'Cancel',
               },
-              {text: 'OK'},
+              { text: 'OK' },
             ],
-            {cancelable: false},
+            { cancelable: false },
           );
         } else {
           Alert.alert(
@@ -131,9 +131,9 @@ class EditSystemDetail extends Component {
                 onPress: () => console.log('Cancel Pressed'),
                 style: 'cancel',
               },
-              {text: 'OK', onPress: () => console.log('OK Pressed')},
+              { text: 'OK', onPress: () => console.log('OK Pressed') },
             ],
-            {cancelable: false},
+            { cancelable: false },
           );
         }
       })
@@ -146,14 +146,14 @@ class EditSystemDetail extends Component {
       'HỆ THỐNG ĐÈN NHÀ',
       'HỆ THỐNG TƯỚI CÂY TỰ ĐỘNG',
     ];
-    const {index, name} = this.props.navigation.state.params;
+    const { index, name } = this.props.navigation.state.params;
     let drop = ['auto', 'on', 'off', 'schedule'];
     let body =
       index == 0 ? (
         <View>
           <ListItem icon>
             <Left>
-              <Icon name={'ios-power'} type="Ionicons" style={{fontSize: 22}} />
+              <Icon name={'ios-power'} type="Ionicons" style={{ fontSize: 22 }} />
             </Left>
             <Body>
               <Text>Bật/Tắt máy lạnh</Text>
@@ -165,23 +165,23 @@ class EditSystemDetail extends Component {
                   <Icon name="ios-arrow-down" onPress={this.toggleAir} />
                 </>
               ) : (
-                <View style={{flexDirection: 'row'}}>
-                  {drop.map((option, key) => (
-                    <TouchableHighlight
-                      style={styles.list}
-                      underlayColor={'#ADADAD'}
-                      key={key}
-                      onPress={() => this.chooseMode(drop[key])}>
-                      <Text style={styles.listText}>{option}</Text>
-                    </TouchableHighlight>
-                  ))}
-                </View>
-              )}
+                  <View style={{ flexDirection: 'row' }}>
+                    {drop.map((option, key) => (
+                      <TouchableHighlight
+                        style={styles.list}
+                        underlayColor={'#ADADAD'}
+                        key={key}
+                        onPress={() => this.chooseMode(drop[key])}>
+                        <Text style={styles.listText}>{option}</Text>
+                      </TouchableHighlight>
+                    ))}
+                  </View>
+                )}
             </Right>
           </ListItem>
           <ListItem icon>
             <Left>
-              <Icon name={'water'} type="Entypo" style={{fontSize: 22}} />
+              <Icon name={'water'} type="Entypo" style={{ fontSize: 22 }} />
             </Left>
             <Body>
               <Text>Điều chỉnh độ ẩm</Text>
@@ -189,8 +189,10 @@ class EditSystemDetail extends Component {
             <Right>
               <TextInput
                 placeholder="Type here"
-                onChangeText={(value1) => this.setState({value1})}
-                value={this.state.value1}></TextInput>
+                onChangeText={(value1) => this.setState({ value1 })}
+                value={this.state.value1}
+                keyboardType='decimal-pad'
+              ></TextInput>
             </Right>
           </ListItem>
           <ListItem icon>
@@ -198,7 +200,7 @@ class EditSystemDetail extends Component {
               <Icon
                 type="FontAwesome5"
                 name="temperature-high"
-                style={{fontSize: 22}}
+                style={{ fontSize: 22 }}
               />
             </Left>
             <Body>
@@ -206,10 +208,11 @@ class EditSystemDetail extends Component {
             </Body>
             <Right>
               <TextInput
-                style={{paddingLeft: 10}}
+                style={{ paddingLeft: 10 }}
                 placeholder="Type here"
-                onChangeText={(value2) => this.setState({value2})}
-                value={this.state.value2}></TextInput>
+                onChangeText={(value2) => this.setState({ value2 })}
+                value={this.state.value2}
+                keyboardType='decimal-pad'></TextInput>
             </Right>
           </ListItem>
         </View>
@@ -217,7 +220,7 @@ class EditSystemDetail extends Component {
         <View>
           <ListItem icon>
             <Left>
-              <Icon name={'ios-power'} type="Ionicons" style={{fontSize: 22}} />
+              <Icon name={'ios-power'} type="Ionicons" style={{ fontSize: 22 }} />
             </Left>
             <Body>
               <Text>Bật/Tắt bóng đèn</Text>
@@ -229,18 +232,18 @@ class EditSystemDetail extends Component {
                   <Icon name="ios-arrow-down" onPress={this.toggleAir} />
                 </>
               ) : (
-                <View style={{flexDirection: 'row'}}>
-                  {drop.map((option, key) => (
-                    <TouchableHighlight
-                      style={styles.list}
-                      underlayColor={'#ADADAD'}
-                      key={key}
-                      onPress={() => this.chooseMode(drop[key])}>
-                      <Text style={styles.listText}>{option}</Text>
-                    </TouchableHighlight>
-                  ))}
-                </View>
-              )}
+                  <View style={{ flexDirection: 'row' }}>
+                    {drop.map((option, key) => (
+                      <TouchableHighlight
+                        style={styles.list}
+                        underlayColor={'#ADADAD'}
+                        key={key}
+                        onPress={() => this.chooseMode(drop[key])}>
+                        <Text style={styles.listText}>{option}</Text>
+                      </TouchableHighlight>
+                    ))}
+                  </View>
+                )}
             </Right>
           </ListItem>
           <ListItem icon>
@@ -248,7 +251,7 @@ class EditSystemDetail extends Component {
               <Icon
                 name={'lightbulb'}
                 type="FontAwesome5"
-                style={{fontSize: 22}}
+                style={{ fontSize: 22 }}
               />
             </Left>
             <Body>
@@ -257,72 +260,74 @@ class EditSystemDetail extends Component {
             <Right>
               <TextInput
                 placeholder="Type here"
-                onChangeText={(value1) => this.setState({value1})}
-                value={this.state.value1}></TextInput>
+                onChangeText={(value1) => this.setState({ value1 })}
+                value={this.state.value1}
+                keyboardType='decimal-pad'></TextInput>
             </Right>
           </ListItem>
         </View>
       ) : (
-        <View>
-          <ListItem icon>
-            <Left>
-              <Icon name={'ios-power'} type="Ionicons" style={{fontSize: 22}} />
-            </Left>
-            <Body>
-              <Text>Bật/Tắt motor</Text>
-            </Body>
-            <Right>
-              {this.state.status_of_air == false ? (
-                <>
-                  <Text>{this.state.mode}</Text>
-                  <Icon name="ios-arrow-down" onPress={this.toggleAir} />
-                </>
-              ) : (
-                <View style={{flexDirection: 'row'}}>
-                  {drop.map((option, key) => (
-                    <TouchableHighlight
-                      style={styles.list}
-                      underlayColor={'#ADADAD'}
-                      key={key}
-                      onPress={() => this.chooseMode(drop[key])}>
-                      <Text style={styles.listText}>{option}</Text>
-                    </TouchableHighlight>
-                  ))}
-                </View>
-              )}
-            </Right>
-          </ListItem>
-          <ListItem icon>
-            <Left>
-              <Icon
-                name={'lightbulb'}
-                type="FontAwesome5"
-                style={{fontSize: 22}}
-              />
-            </Left>
-            <Body>
-              <Text>Công suất</Text>
-            </Body>
-            <Right>
-              <TextInput
-                placeholder="Type here"
-                onChangeText={(value1) => this.setState({value1})}
-                value={this.state.value1}></TextInput>
-            </Right>
-          </ListItem>
-        </View>
-      );
-    const {mode, value1, value2} = this.state;
+            <View>
+              <ListItem icon>
+                <Left>
+                  <Icon name={'ios-power'} type="Ionicons" style={{ fontSize: 22 }} />
+                </Left>
+                <Body>
+                  <Text>Bật/Tắt motor</Text>
+                </Body>
+                <Right>
+                  {this.state.status_of_air == false ? (
+                    <>
+                      <Text>{this.state.mode}</Text>
+                      <Icon name="ios-arrow-down" onPress={this.toggleAir} />
+                    </>
+                  ) : (
+                      <View style={{ flexDirection: 'row' }}>
+                        {drop.map((option, key) => (
+                          <TouchableHighlight
+                            style={styles.list}
+                            underlayColor={'#ADADAD'}
+                            key={key}
+                            onPress={() => this.chooseMode(drop[key])}>
+                            <Text style={styles.listText}>{option}</Text>
+                          </TouchableHighlight>
+                        ))}
+                      </View>
+                    )}
+                </Right>
+              </ListItem>
+              <ListItem icon>
+                <Left>
+                  <Icon
+                    name={'lightbulb'}
+                    type="FontAwesome5"
+                    style={{ fontSize: 22 }}
+                  />
+                </Left>
+                <Body>
+                  <Text>Công suất</Text>
+                </Body>
+                <Right>
+                  <TextInput
+                    placeholder="Type here"
+                    onChangeText={(value1) => this.setState({ value1 })}
+                    value={this.state.value1}
+                    keyboardType='decimal-pad'></TextInput>
+                </Right>
+              </ListItem>
+            </View>
+          );
+    const { mode, value1, value2 } = this.state;
     return (
       <ScrollView
-        style={{flex: 1}}
-        contentContainerStyle={{flex: 1, minHeight: screenHeight}}>
-        <HeaderComponent style={{flex: 0.2}} />
+        style={{ flex: 1 }}
+        contentContainerStyle={{ flex: 1, minHeight: screenHeight }}>
+        <HeaderComponent style={{ flex: 0.2 }} />
         <View style={styles.titleView}>
           <Text style={styles.textTitle}>{nameTitle[index]}</Text>
           <Text style={styles.textId}>{name}</Text>
         </View>
-        <View style={{flex: 0.5}}>{body}</View>
+        <View style={{ flex: 0.5 }}>{body}</View>
         <View
           style={{
             flex: 0.3,
@@ -347,4 +352,4 @@ class EditSystemDetail extends Component {
 
 const mapStateToProps = (state) => ({});
 
-export default connect(mapStateToProps, {getDeviceDetail})(EditSystemDetail);
+export default connect(mapStateToProps, { getDeviceDetail })(EditSystemDetail);

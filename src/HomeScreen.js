@@ -1,4 +1,4 @@
-import React, {Component, isValidElement} from 'react';
+import React, { Component, isValidElement } from 'react';
 import {
   View,
   Text,
@@ -6,10 +6,10 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
-import {Card, CardItem, Icon} from 'native-base';
+import { Card, CardItem, Icon } from 'native-base';
 import HeaderComponent from './component/HeaderComponent';
 import CardSystem from './component/CardSystem';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import {
   getDeviceTypeAir,
   getDeviceTypeMotor,
@@ -20,7 +20,10 @@ const styles = StyleSheet.create({
     flex: 0.2,
   },
   body: {
-    flex: 0.9,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center'
   },
   cards: {
     flex: 0.5,
@@ -57,7 +60,7 @@ class HomeScreen extends Component {
   };
   render() {
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <HeaderComponent style={styles.header} />
         <View style={styles.body}>
           <View style={styles.cards}>
@@ -65,7 +68,7 @@ class HomeScreen extends Component {
               onPress={() => {
                 this.moveToDetails0(0);
               }}
-              style={{flex: 0.5}}>
+              style={{ flex: 0.5, alignItems: 'center', justifyContent: 'center' }}>
               <CardSystem data={0} />
             </TouchableOpacity>
 
@@ -73,7 +76,7 @@ class HomeScreen extends Component {
               onPress={() => {
                 this.moveToDetails1(1);
               }}
-              style={{flex: 0.5}}>
+              style={{ flex: 0.5 }}>
               <CardSystem data={1} />
             </TouchableOpacity>
           </View>
@@ -82,14 +85,14 @@ class HomeScreen extends Component {
               onPress={() => {
                 this.moveToDetails2(2);
               }}
-              style={{flex: 0.5}}>
+              style={{ flex: 0.5 }}>
               <CardSystem data={2} />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
                 this.moveToSetting();
               }}
-              style={{flex: 0.5}}>
+              style={{ flex: 0.5 }}>
               <CardSystem data={3} />
             </TouchableOpacity>
           </View>
