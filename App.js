@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import 'react-native-gesture-handler';
 import {createStackNavigator} from 'react-navigation-stack';
-import {createAppContainer} from 'react-navigation';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 
 import HomeScreen from './src/HomeScreen';
 import SystemDetail from './src/SystemDetail';
@@ -12,13 +12,7 @@ import SettingPage from './src/SettingPage';
 import {Provider} from 'react-redux';
 import store from './src/redux/store';
 
-const HomeContainer = createStackNavigator({
-  HomeScreen: {
-    screen: HomeScreen,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
+const swithNavigator = createSwitchNavigator({
   SystemDetail: {
     screen: SystemDetail,
     navigationOptions: {
@@ -27,6 +21,21 @@ const HomeContainer = createStackNavigator({
   },
   EditSystemDetail: {
     screen: EditSystemDetail,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+});
+
+const HomeContainer = createStackNavigator({
+  HomeScreen: {
+    screen: HomeScreen,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  swithNavigator: {
+    screen: swithNavigator,
     navigationOptions: {
       headerShown: false,
     },

@@ -4,6 +4,8 @@ import {
   GET_DEVICE_TYPE_MOTOR,
   GET_DEVICE_DETAIL,
   GET_DEVICE_TYPE_LIGHT,
+  GET_DEVICE_TYPE_SPEAKER,
+  GET_DEVICE_TYPE_LIGHTD,
 } from './type';
 import {TextComponent} from 'react-native';
 
@@ -11,6 +13,8 @@ const initialState = {
   device_type_air_conditioner: [],
   device_type_light: [],
   device_type_motor: [],
+  device_type_speaker: [],
+  device_type_lightD: [],
 };
 export default function (state = initialState, action) {
   switch (action.type) {
@@ -57,6 +61,16 @@ export default function (state = initialState, action) {
       return {
         ...state,
         device_type_light: action.payload,
+      };
+    case GET_DEVICE_TYPE_SPEAKER:
+      return {
+        ...state,
+        device_type_speaker: action.payload,
+      };
+    case GET_DEVICE_TYPE_LIGHTD:
+      return {
+        ...state,
+        device_type_lightD: action.payload,
       };
     default:
       return state;
