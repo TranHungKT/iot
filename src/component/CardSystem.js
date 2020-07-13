@@ -37,12 +37,21 @@ const styles = StyleSheet.create({
 
 export default class CardSystem extends Component {
   render() {
-    const nameIcon = ['ios-snow', 'md-bulb', 'md-color-fill', 'ios-settings'];
+    const nameIcon = [
+      'ios-snow',
+      'md-bulb',
+      'md-color-fill',
+      'ios-settings',
+      'ios-volume-high',
+      'md-bulb',
+    ];
     const nameTitle = [
       'HỆ THỐNG MÁY LẠNH',
       'HỆ THỐNG ĐÈN NHÀ',
       'HỆ THỐNG TƯỚI CÂY TỰ ĐỘNG',
       'CÀI ĐẶT NGƯỜI DÙNG',
+      'SPEAKER',
+      'LIGHTD',
     ];
     const {data} = this.props;
     return (

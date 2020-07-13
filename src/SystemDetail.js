@@ -55,6 +55,9 @@ class SystemDetail extends Component {
       'HỆ THỐNG MÁY LẠNH',
       'HỆ THỐNG ĐÈN NHÀ',
       'HỆ THỐNG TƯỚI CÂY TỰ ĐỘNG',
+      '',
+      'SPEAKER',
+      'LIGHTD',
     ];
     const {index} = this.props.navigation.state.params;
     const {reducer} = this.props;
@@ -63,8 +66,12 @@ class SystemDetail extends Component {
       DATA = reducer.device_type_air_conditioner;
     } else if (index == 1) {
       DATA = reducer.device_type_light;
-    } else {
+    } else if (index == 2) {
       DATA = reducer.device_type_motor;
+    } else if (index == 4) {
+      DATA = reducer.device_type_speaker;
+    } else if (index == 5) {
+      DATA = reducer.device_type_lightD;
     }
     return (
       <View style={{flex: 1}}>

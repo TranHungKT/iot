@@ -3,7 +3,6 @@ import {View, Text, StyleSheet, StatusBar} from 'react-native';
 
 const styles = StyleSheet.create({
   header: {
-    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#74BFE4',
     height: 90,
@@ -13,7 +12,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
     position: 'absolute',
-    top: 45 - 10,
+    top: 50,
   },
 });
 
