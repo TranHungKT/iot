@@ -40,8 +40,12 @@ class Statictical extends Component {
       tempData = reducer.device_type_air_conditioner;
     } else if (index == 1) {
       tempData = reducer.device_type_light;
-    } else {
+    } else if (index == 2) {
       tempData = reducer.device_type_motor;
+    } else if (index == 4) {
+      tempData = reducer.device_type_speaker;
+    } else if (index == 5) {
+      tempData = reducer.device_type_lightD;
     }
     let data;
 
@@ -59,6 +63,8 @@ class Statictical extends Component {
     let temp = [];
     let intensity = [];
     let humid = [];
+    let humid1 = [];
+    let intensity1 = [];
     if (data && data.length) {
       for (let i = 0; i < data.length; i++) {
         time.push(moment(data[i].time).format('L'));
@@ -66,11 +72,16 @@ class Statictical extends Component {
           temp.push(data[i].temperature);
         } else if (index == 1) {
           intensity.push(data[i].intensity);
-        } else {
+        } else if (index == 2) {
           humid.push(data[i].humid);
+        } else if (index == 4) {
+          humid1.push(data[i].humid);
+        } else if (index == 5) {
+          intensity1.push(data[i].intensity);
         }
       }
     }
+
     if (index == 0) {
       this.setState({
         time: time,
@@ -81,13 +92,22 @@ class Statictical extends Component {
         time: time,
         data: intensity,
       });
-    } else {
+    } else if (index == 2) {
       this.setState({
         time: time,
         data: humid,
       });
+    } else if (index == 4) {
+      this.setState({
+        time: time,
+        data: humid1,
+      });
+    } else if (index == 5) {
+      this.setState({
+        time: time,
+        data: intensity1,
+      });
     }
-    console.log('time', time);
   };
 
   render() {

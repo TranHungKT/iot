@@ -8,9 +8,16 @@ export default class CardDetail extends Component {
     this.state = {};
   }
 
+  editSystemDetail = () => {
+    this.props.navigation.navigate('EditSystemDetail', {
+      index: this.props.index,
+      name: this.props.item.device_id,
+    });
+  };
+
   render() {
     const {item, navigation, index} = this.props;
-    console.log('item', item.mode);
+
     let name = this.props.item ? item.device_id : undefined;
     let temp = this.props.item ? item.temperature : undefined;
     let humid = this.props.item ? item.humid : undefined;
@@ -58,13 +65,7 @@ export default class CardDetail extends Component {
       ) : null;
     return (
       <View>
-        <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate('EditSystemDetail', {
-              index: index,
-              name: item.device_id,
-            })
-          }>
+        <TouchableOpacity onPress={this.editSystemDetail}>
           <Card>
             <CardItem header>
               <Text style={{textAlign: 'left'}}>Tên thiết bị: {name}</Text>

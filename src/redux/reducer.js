@@ -6,6 +6,7 @@ import {
   GET_DEVICE_TYPE_LIGHT,
   GET_DEVICE_TYPE_SPEAKER,
   GET_DEVICE_TYPE_LIGHTD,
+  GET_SYSTEM_DETAIL,
 } from './type';
 import {TextComponent} from 'react-native';
 
@@ -35,8 +36,12 @@ export default function (state = initialState, action) {
         tempState = state.device_type_air_conditioner;
       } else if (index == 1) {
         tempState = state.device_type_light;
-      } else {
+      } else if (index == 2) {
         tempState = state.device_type_motor;
+      } else if (index == 4) {
+        tempState = state.device_type_speaker;
+      } else if (index == 5) {
+        tempState = state.device_type_lightD;
       }
       let device_name = action.payload.device_name;
       let json = action.payload.json;
@@ -47,12 +52,17 @@ export default function (state = initialState, action) {
           continue;
         }
       }
+
       if (index == 0) {
         state.device_type_air_conditioner = tempState;
       } else if (index == 1) {
         state.device_type_light = tempState;
-      } else {
+      } else if (index == 2) {
         state.device_type_motor = tempState;
+      } else if (index == 4) {
+        state.device_type_speaker = tempState;
+      } else if (index == 5) {
+        state.device_type_lightD = tempState;
       }
       return {
         ...state,
@@ -72,6 +82,10 @@ export default function (state = initialState, action) {
         ...state,
         device_type_lightD: action.payload,
       };
+    // case GET_SYSTEM_DETAIL:
+    //   return {
+    //     ...state,
+    //   };
     default:
       return state;
   }

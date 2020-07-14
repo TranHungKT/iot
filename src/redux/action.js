@@ -6,6 +6,7 @@ import {
   GET_DEVICE_TYPE_LIGHT,
   GET_DEVICE_TYPE_SPEAKER,
   GET_DEVICE_TYPE_LIGHTD,
+  GET_SYSTEM_DETAIL,
 } from './type';
 
 export const getDeviceTypeAir = () => (dispatch) => {
@@ -59,7 +60,6 @@ export const getDeviceTypeSpeaker = () => (dispatch) => {
   })
     .then((response) => response.json())
     .then((json) => {
-      console.log(json);
       dispatch({type: GET_DEVICE_TYPE_SPEAKER, payload: json});
       return true;
     })
@@ -73,7 +73,6 @@ export const getDeviceTypeLightD = () => (dispatch) => {
   })
     .then((response) => response.json())
     .then((json) => {
-      console.log(json);
       dispatch({type: GET_DEVICE_TYPE_LIGHTD, payload: json});
       return true;
     })
@@ -86,8 +85,12 @@ export const getDeviceDetail = (index, device_name) => (dispatch) => {
     device_type = 'AIR_CONDITIONER';
   } else if (index == 1) {
     device_type = 'LIGHT_BULB';
-  } else {
+  } else if (index == 2) {
     device_type = 'MOTOR';
+  } else if (index == 4) {
+    device_type = 'Speaker';
+  } else if (index == 5) {
+    device_type = 'LightD';
   }
   return fetch('https://iotserver192.herokuapp.com/getStatusNoLogin', {
     method: 'POST',

@@ -20,10 +20,20 @@ import {
 const styles = StyleSheet.create({
   body: {
     flex: 1,
+    backgroundColor: 'white',
   },
   cards: {
     flex: 1 / 3,
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignContent: 'center',
+    marginTop: 10,
+  },
+  button: {
+    flex: 0.5,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
@@ -76,17 +86,15 @@ class HomeScreen extends Component {
               onPress={() => {
                 this.moveToDetails0(0);
               }}
-              style={{
-                flex: 0.5,
-              }}>
-              <CardSystem data={0} style={{position: 'absolute', top: 100}} />
+              style={styles.button}>
+              <CardSystem data={0} />
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={() => {
                 this.moveToDetails1(1);
               }}
-              style={{flex: 0.5}}>
+              style={styles.button}>
               <CardSystem data={1} />
             </TouchableOpacity>
           </View>
@@ -95,14 +103,14 @@ class HomeScreen extends Component {
               onPress={() => {
                 this.moveToDetails2(2);
               }}
-              style={{flex: 0.5}}>
+              style={styles.button}>
               <CardSystem data={2} />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
                 this.moveToSetting();
               }}
-              style={{flex: 0.5}}>
+              style={styles.button}>
               <CardSystem data={3} />
             </TouchableOpacity>
           </View>
@@ -111,14 +119,14 @@ class HomeScreen extends Component {
               onPress={() => {
                 this.moveToDetails4(4);
               }}
-              style={{flex: 0.5}}>
+              style={styles.button}>
               <CardSystem data={4} />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
                 this.moveToDetails5(5);
               }}
-              style={{flex: 0.5}}>
+              style={styles.button}>
               <CardSystem data={5} />
             </TouchableOpacity>
           </View>

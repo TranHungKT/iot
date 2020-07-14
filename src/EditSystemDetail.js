@@ -46,12 +46,11 @@ const styles = StyleSheet.create({
   list: {
     zIndex: 99,
     borderBottomWidth: 1,
-    paddingTop: 2,
-    paddingLeft: 5,
-    paddingBottom: 7,
-    flexDirection: 'column',
+    padding: 5,
+    marginHorizontal: 5,
     borderColor: '#AAAAAA',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'black',
     borderRadius: 2,
   },
@@ -67,12 +66,35 @@ class EditSystemDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: false,
       status_of_air: false,
       mode: '',
       value1: '',
       value2: '',
     };
   }
+  componentDidMount() {
+    return fetch('https://iotserver192.herokuapp.com/getSettingNoLogin', {
+      method: 'POST',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify({
+        // device_type: `AIR_CONDITIONER`,
+        device_name: `${this.props.navigation.state.params.name}`,
+      }),
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        this.setState({
+          mode: json.mode,
+          value1: json.sensorValue1,
+          value2: json.sensorValue2,
+          isLoading: true,
+        });
+        return true;
+      })
+      .catch((err) => err);
+  }
+
   toggleAir = () => {
     this.setState((prevState) => ({status_of_air: !prevState.status_of_air}));
   };
@@ -109,8 +131,7 @@ class EditSystemDetail extends Component {
     } else {
       name = this.props.navigation.state.params.name;
     }
-    console.log('value2', this.state.value2);
-    console.log('name', name);
+
     fetch('https://iotserver192.herokuapp.com/changeSettingNoLogin', {
       method: 'POST',
       headers: {'content-type': 'application/json'},
@@ -160,11 +181,11 @@ class EditSystemDetail extends Component {
       'HỆ THỐNG TƯỚI CÂY TỰ ĐỘNG',
     ];
     const {index, name} = this.props.navigation.state.params;
-    let drop = ['auto', 'on', 'off', 'schedule'];
+    let drop = ['AUTO', 'ON', 'OFF', 'SCHEDULE'];
     let body =
       index == 0 ? (
         <View>
-          <ListItem icon>
+          <ListItem icon style={{}}>
             <Left>
               <Icon name={'ios-power'} type="Ionicons" style={{fontSize: 22}} />
             </Left>
@@ -201,7 +222,7 @@ class EditSystemDetail extends Component {
             </Body>
             <Right>
               <TextInput
-                placeholder="Type here"
+                defaultValue={`${this.state.value1}`}
                 onChangeText={(value1) => this.setState({value1})}
                 value={this.state.value1}
                 keyboardType="decimal-pad"></TextInput>
@@ -221,7 +242,7 @@ class EditSystemDetail extends Component {
             <Right>
               <TextInput
                 style={{paddingLeft: 10}}
-                placeholder="Type here"
+                defaultValue={`${this.state.value2}`}
                 onChangeText={(value2) => this.setState({value2})}
                 value={this.state.value2}
                 keyboardType="decimal-pad"></TextInput>
@@ -271,7 +292,7 @@ class EditSystemDetail extends Component {
             </Body>
             <Right>
               <TextInput
-                placeholder="Type here"
+                defaultValue={`${this.state.value1}`}
                 onChangeText={(value1) => this.setState({value1})}
                 value={this.state.value1}
                 keyboardType="decimal-pad"></TextInput>
@@ -321,7 +342,7 @@ class EditSystemDetail extends Component {
             </Body>
             <Right>
               <TextInput
-                placeholder="Type here"
+                defaultValue={`${this.state.value1}`}
                 onChangeText={(value1) => this.setState({value1})}
                 value={this.state.value1}
                 keyboardType="decimal-pad"></TextInput>
@@ -367,7 +388,7 @@ class EditSystemDetail extends Component {
             </Body>
             <Right>
               <TextInput
-                placeholder="Type here"
+                defaultValue={`${this.state.value1}`}
                 onChangeText={(value1) => this.setState({value1})}
                 value={this.state.value1}
                 keyboardType="decimal-pad"></TextInput>
@@ -413,7 +434,7 @@ class EditSystemDetail extends Component {
             </Body>
             <Right>
               <TextInput
-                placeholder="Type here"
+                defaultValue={`${this.state.value1}`}
                 onChangeText={(value1) => this.setState({value1})}
                 value={this.state.value1}
                 keyboardType="decimal-pad"></TextInput>
@@ -423,16 +444,15 @@ class EditSystemDetail extends Component {
       );
     const {mode, value1, value2} = this.state;
     let buttonThongKe;
-    if (index == 0 || index == 1 || index == 2) {
-      buttonThongKe = (
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.getDevice(index, name)}>
-          <Text style={styles.textButton}>Thống kê</Text>
-        </TouchableOpacity>
-      );
-    }
-    return (
+    buttonThongKe = (
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => this.getDevice(index, name)}>
+        <Text style={styles.textButton}>Thống kê</Text>
+      </TouchableOpacity>
+    );
+
+    return this.state.isLoading == true ? (
       <ScrollView
         style={{flex: 1}}
         contentContainerStyle={{flex: 1, minHeight: screenHeight}}>
@@ -456,7 +476,7 @@ class EditSystemDetail extends Component {
           {buttonThongKe}
         </View>
       </ScrollView>
-    );
+    ) : null;
   }
 }
 

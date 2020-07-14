@@ -22,10 +22,9 @@ const styles = StyleSheet.create({
   CARD: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: screenHeight / 3,
+    height: screenHeight / 4,
     width: screenWidth / 2 - 30,
     padding: 10,
-    marginLeft: 20,
   },
   text: {
     textAlign: 'center',
