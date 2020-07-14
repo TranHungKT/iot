@@ -6,7 +6,10 @@ import {
   GET_DEVICE_TYPE_LIGHT,
   GET_DEVICE_TYPE_SPEAKER,
   GET_DEVICE_TYPE_LIGHTD,
+<<<<<<< HEAD
   GET_SYSTEM_DETAIL,
+=======
+>>>>>>> feature
 } from './type';
 import {TextComponent} from 'react-native';
 
@@ -82,10 +85,13 @@ export default function (state = initialState, action) {
         ...state,
         device_type_lightD: action.payload,
       };
+<<<<<<< HEAD
     // case GET_SYSTEM_DETAIL:
     //   return {
     //     ...state,
     //   };
+=======
+>>>>>>> feature
     default:
       return state;
   }

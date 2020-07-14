@@ -17,7 +17,6 @@ export default class CardDetail extends Component {
 
   render() {
     const {item, navigation, index} = this.props;
-
     let name = this.props.item ? item.device_id : undefined;
     let temp = this.props.item ? item.temperature : undefined;
     let humid = this.props.item ? item.humid : undefined;
