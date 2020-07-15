@@ -64,7 +64,9 @@ export default class CardDetail extends Component {
       ) : null;
     return (
       <View>
-        <TouchableOpacity onPress={this.editSystemDetail}>
+        <TouchableOpacity
+          onPress={this.editSystemDetail}
+          style={{marginHorizontal: 10}}>
           <Card>
             <CardItem header>
               <Text style={{textAlign: 'left'}}>Tên thiết bị: {name}</Text>

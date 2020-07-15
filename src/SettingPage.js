@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  KeyboardAvoidingView,
 } from 'react-native';
 import HeaderComponent from './component/HeaderComponent';
 import {ListItem, Left, Body, Right, Icon} from 'native-base';
@@ -18,16 +19,18 @@ const styles = StyleSheet.create({
   title: {
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 0.1,
+    // flex: 0.1,
   },
   button: {
-    flex: 0.1,
+    // flex: 0.1,
     marginHorizontal: 40,
-    marginTop: 100,
+    marginTop: 150,
     backgroundColor: '#74BFE4',
     bottom: 40,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 10,
+    height: 40,
   },
 });
 export default class SettingPage extends Component {
@@ -107,7 +110,7 @@ export default class SettingPage extends Component {
   render() {
     const {humid_of_air, humid_of_land, light_value, temp} = this.state;
     return this.state.isLoading == true ? (
-      <View style={{flex: 1}}>
+      <KeyboardAvoidingView style={{flex: 1}}>
         <HeaderComponent style={{flex: 0.2}} />
         <View style={styles.title}>
           <Text style={styles.text}>CÀI ĐẶT</Text>
@@ -188,7 +191,7 @@ export default class SettingPage extends Component {
           style={styles.button}>
           <Text>SAVE</Text>
         </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
     ) : null;
   }
 }

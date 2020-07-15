@@ -6,10 +6,7 @@ import {
   GET_DEVICE_TYPE_LIGHT,
   GET_DEVICE_TYPE_SPEAKER,
   GET_DEVICE_TYPE_LIGHTD,
-<<<<<<< HEAD
   GET_SYSTEM_DETAIL,
-=======
->>>>>>> feature
 } from './type';
 
 export const getDeviceTypeAir = () => (dispatch) => {
@@ -63,10 +60,6 @@ export const getDeviceTypeSpeaker = () => (dispatch) => {
   })
     .then((response) => response.json())
     .then((json) => {
-<<<<<<< HEAD
-=======
-      console.log(json);
->>>>>>> feature
       dispatch({type: GET_DEVICE_TYPE_SPEAKER, payload: json});
       return true;
     })
@@ -80,10 +73,6 @@ export const getDeviceTypeLightD = () => (dispatch) => {
   })
     .then((response) => response.json())
     .then((json) => {
-<<<<<<< HEAD
-=======
-      console.log(json);
->>>>>>> feature
       dispatch({type: GET_DEVICE_TYPE_LIGHTD, payload: json});
       return true;
     })
@@ -114,6 +103,7 @@ export const getDeviceDetail = (index, device_name) => (dispatch) => {
     .then((response) => response.json())
     .then((json) => {
       const data = {index, json, device_name};
+      console.log(json);
       dispatch({type: GET_DEVICE_DETAIL, payload: data});
       return true;
     })

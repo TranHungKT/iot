@@ -71,6 +71,8 @@ class EditSystemDetail extends Component {
       mode: '',
       value1: '',
       value2: '',
+      schedule_on: '',
+      schedule_off: '',
     };
   }
   componentDidMount() {
@@ -78,17 +80,29 @@ class EditSystemDetail extends Component {
       method: 'POST',
       headers: {'content-type': 'application/json'},
       body: JSON.stringify({
-        // device_type: `AIR_CONDITIONER`,
         device_name: `${this.props.navigation.state.params.name}`,
       }),
     })
       .then((response) => response.json())
       .then((json) => {
+        let tempValue1, tempValue2;
+        if (json.sensorValue1 == -1) {
+          tempValue1 = 'default';
+        } else {
+          tempValue1 = json.sensorValue1;
+        }
+        if (json.sensorValue2 == -1) {
+          tempValue2 = 'default';
+        } else {
+          tempValue2 = json.sensorValue2;
+        }
         this.setState({
           mode: json.mode,
-          value1: json.sensorValue1,
-          value2: json.sensorValue2,
+          value1: tempValue1,
+          value2: tempValue2,
           isLoading: true,
+          schedule_on: json.shedule_on,
+          schedule_off: json.shedule_off,
         });
         return true;
       })
@@ -112,7 +126,7 @@ class EditSystemDetail extends Component {
     });
   };
 
-  changeDevice = (mode, value1, value2) => {
+  changeDevice = (mode, value1, value2, schedule_on, schedule_off) => {
     if (
       this.props.navigation.state.params.index == 1 ||
       this.props.navigation.state.params.index == 2 ||
@@ -131,7 +145,12 @@ class EditSystemDetail extends Component {
     } else {
       name = this.props.navigation.state.params.name;
     }
-
+    if (value1 == 'default') {
+      value1 = -1;
+    }
+    if (value2 == 'default') {
+      value2 = 1;
+    }
     fetch('https://iotserver192.herokuapp.com/changeSettingNoLogin', {
       method: 'POST',
       headers: {'content-type': 'application/json'},
@@ -140,6 +159,8 @@ class EditSystemDetail extends Component {
         mode: `${mode}`,
         sensorValue1: `${value1}`,
         sensorValue2: `${value2}`,
+        schedule_on: `${schedule_on}`,
+        schedule_off: `${schedule_off}`,
       }),
     })
       .then((response) => {
@@ -174,11 +195,29 @@ class EditSystemDetail extends Component {
       .catch((err) => console.log('err', err));
   };
 
+  changeValue1 = () => {
+    if (this.state.value1 == 'default') {
+      this.setState({
+        value1: '',
+      });
+    }
+  };
+  changeValue2 = () => {
+    if (this.state.value2 == 'default') {
+      this.setState({
+        value2: '',
+      });
+    }
+  };
+
   render() {
     const nameTitle = [
       'HỆ THỐNG MÁY LẠNH',
       'HỆ THỐNG ĐÈN NHÀ',
       'HỆ THỐNG TƯỚI CÂY TỰ ĐỘNG',
+      '',
+      'HỆ THỐNG LOA',
+      'HỆ THỐNG ĐÈN',
     ];
     const {index, name} = this.props.navigation.state.params;
     let drop = ['AUTO', 'ON', 'OFF', 'SCHEDULE'];
@@ -213,41 +252,89 @@ class EditSystemDetail extends Component {
               )}
             </Right>
           </ListItem>
-          <ListItem icon>
-            <Left>
-              <Icon name={'water'} type="Entypo" style={{fontSize: 22}} />
-            </Left>
-            <Body>
-              <Text>Điều chỉnh độ ẩm</Text>
-            </Body>
-            <Right>
-              <TextInput
-                defaultValue={`${this.state.value1}`}
-                onChangeText={(value1) => this.setState({value1})}
-                value={this.state.value1}
-                keyboardType="decimal-pad"></TextInput>
-            </Right>
-          </ListItem>
-          <ListItem icon>
-            <Left>
-              <Icon
-                type="FontAwesome5"
-                name="temperature-high"
-                style={{fontSize: 22}}
-              />
-            </Left>
-            <Body>
-              <Text>Nhiệt độ</Text>
-            </Body>
-            <Right>
-              <TextInput
-                style={{paddingLeft: 10}}
-                defaultValue={`${this.state.value2}`}
-                onChangeText={(value2) => this.setState({value2})}
-                value={this.state.value2}
-                keyboardType="decimal-pad"></TextInput>
-            </Right>
-          </ListItem>
+          {this.state.mode == 'AUTO' ? (
+            <>
+              <ListItem icon>
+                <Left>
+                  <Icon name={'water'} type="Entypo" style={{fontSize: 22}} />
+                </Left>
+                <Body>
+                  <Text>Điều chỉnh độ ngưỡng độ ẩm</Text>
+                </Body>
+                <Right>
+                  <TextInput
+                    defaultValue={`${this.state.value1}`}
+                    onFocus={this.changeValue1}
+                    onChangeText={(value1) => this.setState({value1})}
+                    value={this.state.value1}
+                    keyboardType="decimal-pad"></TextInput>
+                </Right>
+              </ListItem>
+              <ListItem icon>
+                <Left>
+                  <Icon
+                    type="FontAwesome5"
+                    name="temperature-high"
+                    style={{fontSize: 22}}
+                  />
+                </Left>
+                <Body>
+                  <Text>Điều chỉnh ngưỡng nhiệt độ</Text>
+                </Body>
+                <Right>
+                  <TextInput
+                    style={{paddingLeft: 10}}
+                    onFocus={this.changeValue2}
+                    defaultValue={`${this.state.value2}`}
+                    onChangeText={(value2) => this.setState({value2})}
+                    value={this.state.value2}
+                    keyboardType="decimal-pad"></TextInput>
+                </Right>
+              </ListItem>
+              <ListItem icon>
+                <Left>
+                  <Icon
+                    type="AntDesign"
+                    name="clockcircle"
+                    style={{fontSize: 22}}
+                  />
+                </Left>
+                <Body>
+                  <Text>Thời gian bật</Text>
+                </Body>
+                <Right>
+                  <TextInput
+                    style={{paddingLeft: 10}}
+                    defaultValue={`${this.state.schedule_on}`}
+                    onChangeText={(schedule_on) => this.setState({schedule_on})}
+                    value={this.state.schedule_on}
+                    keyboardType="decimal-pad"></TextInput>
+                </Right>
+              </ListItem>
+              <ListItem icon>
+                <Left>
+                  <Icon
+                    type="AntDesign"
+                    name="clockcircle"
+                    style={{fontSize: 22}}
+                  />
+                </Left>
+                <Body>
+                  <Text>Thời gian tắt</Text>
+                </Body>
+                <Right>
+                  <TextInput
+                    style={{paddingLeft: 10}}
+                    defaultValue={`${this.state.schedule_off}`}
+                    onChangeText={(schedule_off) =>
+                      this.setState({schedule_off})
+                    }
+                    value={this.state.schedule_off}
+                    keyboardType="decimal-pad"></TextInput>
+                </Right>
+              </ListItem>
+            </>
+          ) : null}
         </View>
       ) : index == 1 ? (
         <View>
@@ -279,25 +366,72 @@ class EditSystemDetail extends Component {
               )}
             </Right>
           </ListItem>
-          <ListItem icon>
-            <Left>
-              <Icon
-                name={'lightbulb'}
-                type="FontAwesome5"
-                style={{fontSize: 22}}
-              />
-            </Left>
-            <Body>
-              <Text>cường độ bóng đèn</Text>
-            </Body>
-            <Right>
-              <TextInput
-                defaultValue={`${this.state.value1}`}
-                onChangeText={(value1) => this.setState({value1})}
-                value={this.state.value1}
-                keyboardType="decimal-pad"></TextInput>
-            </Right>
-          </ListItem>
+          {this.state.mode == 'AUTO' ? (
+            <>
+              <ListItem icon>
+                <Left>
+                  <Icon
+                    name={'lightbulb'}
+                    type="FontAwesome5"
+                    style={{fontSize: 22}}
+                  />
+                </Left>
+                <Body>
+                  <Text>Điều chỉnh ngưỡng cường độ ánh sáng</Text>
+                </Body>
+                <Right>
+                  <TextInput
+                    onFocus={this.changeValue1}
+                    defaultValue={`${this.state.value1}`}
+                    onChangeText={(value1) => this.setState({value1})}
+                    value={this.state.value1}
+                    keyboardType="decimal-pad"></TextInput>
+                </Right>
+              </ListItem>
+              <ListItem icon>
+                <Left>
+                  <Icon
+                    type="AntDesign"
+                    name="clockcircle"
+                    style={{fontSize: 22}}
+                  />
+                </Left>
+                <Body>
+                  <Text>Thời gian bật</Text>
+                </Body>
+                <Right>
+                  <TextInput
+                    style={{paddingLeft: 10}}
+                    defaultValue={`${this.state.schedule_on}`}
+                    onChangeText={(schedule_on) => this.setState({schedule_on})}
+                    value={this.state.schedule_on}
+                    keyboardType="decimal-pad"></TextInput>
+                </Right>
+              </ListItem>
+              <ListItem icon>
+                <Left>
+                  <Icon
+                    type="AntDesign"
+                    name="clockcircle"
+                    style={{fontSize: 22}}
+                  />
+                </Left>
+                <Body>
+                  <Text>Thời gian tắt</Text>
+                </Body>
+                <Right>
+                  <TextInput
+                    style={{paddingLeft: 10}}
+                    defaultValue={`${this.state.schedule_off}`}
+                    onChangeText={(schedule_off) =>
+                      this.setState({schedule_off})
+                    }
+                    value={this.state.schedule_off}
+                    keyboardType="decimal-pad"></TextInput>
+                </Right>
+              </ListItem>
+            </>
+          ) : null}
         </View>
       ) : index == 2 ? (
         <View>
@@ -329,25 +463,72 @@ class EditSystemDetail extends Component {
               )}
             </Right>
           </ListItem>
-          <ListItem icon>
-            <Left>
-              <Icon
-                name={'lightbulb'}
-                type="FontAwesome5"
-                style={{fontSize: 22}}
-              />
-            </Left>
-            <Body>
-              <Text>Công suất</Text>
-            </Body>
-            <Right>
-              <TextInput
-                defaultValue={`${this.state.value1}`}
-                onChangeText={(value1) => this.setState({value1})}
-                value={this.state.value1}
-                keyboardType="decimal-pad"></TextInput>
-            </Right>
-          </ListItem>
+          {this.state.mode == 'AUTO' ? (
+            <>
+              <ListItem icon>
+                <Left>
+                  <Icon
+                    name={'lightbulb'}
+                    type="FontAwesome5"
+                    style={{fontSize: 22}}
+                  />
+                </Left>
+                <Body>
+                  <Text>Điều chỉnh ngưỡng độ ẩm</Text>
+                </Body>
+                <Right>
+                  <TextInput
+                    onFocus={this.changeValue1}
+                    defaultValue={`${this.state.value1}`}
+                    onChangeText={(value1) => this.setState({value1})}
+                    value={this.state.value1}
+                    keyboardType="decimal-pad"></TextInput>
+                </Right>
+              </ListItem>
+              <ListItem icon>
+                <Left>
+                  <Icon
+                    type="AntDesign"
+                    name="clockcircle"
+                    style={{fontSize: 22}}
+                  />
+                </Left>
+                <Body>
+                  <Text>Thời gian bật</Text>
+                </Body>
+                <Right>
+                  <TextInput
+                    style={{paddingLeft: 10}}
+                    defaultValue={`${this.state.schedule_on}`}
+                    onChangeText={(schedule_on) => this.setState({schedule_on})}
+                    value={this.state.schedule_on}
+                    keyboardType="decimal-pad"></TextInput>
+                </Right>
+              </ListItem>
+              <ListItem icon>
+                <Left>
+                  <Icon
+                    type="AntDesign"
+                    name="clockcircle"
+                    style={{fontSize: 22}}
+                  />
+                </Left>
+                <Body>
+                  <Text>Thời gian tắt</Text>
+                </Body>
+                <Right>
+                  <TextInput
+                    style={{paddingLeft: 10}}
+                    defaultValue={`${this.state.schedule_off}`}
+                    onChangeText={(schedule_off) =>
+                      this.setState({schedule_off})
+                    }
+                    value={this.state.schedule_off}
+                    keyboardType="decimal-pad"></TextInput>
+                </Right>
+              </ListItem>
+            </>
+          ) : null}
         </View>
       ) : index == 4 ? (
         <View>
@@ -379,21 +560,68 @@ class EditSystemDetail extends Component {
               )}
             </Right>
           </ListItem>
-          <ListItem icon>
-            <Left>
-              <Icon name={'water'} type="Entypo" style={{fontSize: 22}} />
-            </Left>
-            <Body>
-              <Text>Cường độ âm thanh</Text>
-            </Body>
-            <Right>
-              <TextInput
-                defaultValue={`${this.state.value1}`}
-                onChangeText={(value1) => this.setState({value1})}
-                value={this.state.value1}
-                keyboardType="decimal-pad"></TextInput>
-            </Right>
-          </ListItem>
+          {this.state.mode == 'AUTO' ? (
+            <>
+              <ListItem icon>
+                <Left>
+                  <Icon name={'water'} type="Entypo" style={{fontSize: 22}} />
+                </Left>
+                <Body>
+                  <Text>Điều chỉnh ngưỡng độ ẩm</Text>
+                </Body>
+                <Right>
+                  <TextInput
+                    onFocus={this.changeValue1}
+                    defaultValue={`${this.state.value1}`}
+                    onChangeText={(value1) => this.setState({value1})}
+                    value={this.state.value1}
+                    keyboardType="decimal-pad"></TextInput>
+                </Right>
+              </ListItem>
+              <ListItem icon>
+                <Left>
+                  <Icon
+                    type="AntDesign"
+                    name="clockcircle"
+                    style={{fontSize: 22}}
+                  />
+                </Left>
+                <Body>
+                  <Text>Thời gian bật</Text>
+                </Body>
+                <Right>
+                  <TextInput
+                    style={{paddingLeft: 10}}
+                    defaultValue={`${this.state.schedule_on}`}
+                    onChangeText={(schedule_on) => this.setState({schedule_on})}
+                    value={this.state.schedule_on}
+                    keyboardType="decimal-pad"></TextInput>
+                </Right>
+              </ListItem>
+              <ListItem icon>
+                <Left>
+                  <Icon
+                    type="AntDesign"
+                    name="clockcircle"
+                    style={{fontSize: 22}}
+                  />
+                </Left>
+                <Body>
+                  <Text>Thời gian tắt</Text>
+                </Body>
+                <Right>
+                  <TextInput
+                    style={{paddingLeft: 10}}
+                    defaultValue={`${this.state.schedule_off}`}
+                    onChangeText={(schedule_off) =>
+                      this.setState({schedule_off})
+                    }
+                    value={this.state.schedule_off}
+                    keyboardType="decimal-pad"></TextInput>
+                </Right>
+              </ListItem>
+            </>
+          ) : null}
         </View>
       ) : (
         <View>
@@ -425,32 +653,71 @@ class EditSystemDetail extends Component {
               )}
             </Right>
           </ListItem>
-          <ListItem icon>
-            <Left>
-              <Icon name={'water'} type="Entypo" style={{fontSize: 22}} />
-            </Left>
-            <Body>
-              <Text>Cường độ bóng đèn</Text>
-            </Body>
-            <Right>
-              <TextInput
-                defaultValue={`${this.state.value1}`}
-                onChangeText={(value1) => this.setState({value1})}
-                value={this.state.value1}
-                keyboardType="decimal-pad"></TextInput>
-            </Right>
-          </ListItem>
+          {this.state.mode == 'AUTO' ? (
+            <>
+              <ListItem icon>
+                <Left>
+                  <Icon name={'water'} type="Entypo" style={{fontSize: 22}} />
+                </Left>
+                <Body>
+                  <Text>Điều chỉnh ngưỡng cường độ ánh sáng</Text>
+                </Body>
+                <Right>
+                  <TextInput
+                    onFocus={this.changeValue1}
+                    defaultValue={`${this.state.value1}`}
+                    onChangeText={(value1) => this.setState({value1})}
+                    value={this.state.value1}
+                    keyboardType="decimal-pad"></TextInput>
+                </Right>
+              </ListItem>
+              <ListItem icon>
+                <Left>
+                  <Icon
+                    type="AntDesign"
+                    name="clockcircle"
+                    style={{fontSize: 22}}
+                  />
+                </Left>
+                <Body>
+                  <Text>Thời gian bật</Text>
+                </Body>
+                <Right>
+                  <TextInput
+                    style={{paddingLeft: 10}}
+                    defaultValue={`${this.state.schedule_on}`}
+                    onChangeText={(schedule_on) => this.setState({schedule_on})}
+                    value={this.state.schedule_on}
+                    keyboardType="decimal-pad"></TextInput>
+                </Right>
+              </ListItem>
+              <ListItem icon>
+                <Left>
+                  <Icon
+                    type="AntDesign"
+                    name="clockcircle"
+                    style={{fontSize: 22}}
+                  />
+                </Left>
+                <Body>
+                  <Text>Thời gian tắt</Text>
+                </Body>
+                <Right>
+                  <TextInput
+                    style={{paddingLeft: 10}}
+                    defaultValue={`${this.state.schedule_off}`}
+                    onChangeText={(schedule_off) =>
+                      this.setState({schedule_off})
+                    }
+                    value={this.state.schedule_off}
+                    keyboardType="decimal-pad"></TextInput>
+                </Right>
+              </ListItem>
+            </>
+          ) : null}
         </View>
       );
-    const {mode, value1, value2} = this.state;
-    let buttonThongKe;
-    buttonThongKe = (
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => this.getDevice(index, name)}>
-        <Text style={styles.textButton}>Thống kê</Text>
-      </TouchableOpacity>
-    );
+    const {mode, value1, value2, schedule_on, schedule_off} = this.state;
 
     return this.state.isLoading == true ? (
       <ScrollView
@@ -470,10 +737,16 @@ class EditSystemDetail extends Component {
           }}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.changeDevice(mode, value1, value2)}>
+            onPress={() =>
+              this.changeDevice(mode, value1, value2, schedule_on, schedule_off)
+            }>
             <Text style={styles.textButton}>Điều chỉnh</Text>
           </TouchableOpacity>
-          {buttonThongKe}
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.getDevice(index, name)}>
+            <Text style={styles.textButton}>Thống kê</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     ) : null;

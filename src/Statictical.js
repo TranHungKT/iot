@@ -131,8 +131,9 @@ class Statictical extends Component {
             contentInset={contentInset}
             svg={{
               fill: 'grey',
-              fontSize: 10,
+              fontSize: 8,
             }}
+            style={{marginLeft: 4}}
             numberOfTicks={10}
             formatLabel={(value) => `${value}`}
           />
@@ -149,7 +150,7 @@ class Statictical extends Component {
           data={this.state.time}
           formatLabel={(value, index) => time[index]}
           contentInset={{left: 30, right: 30}}
-          svg={{fontSize: 10, fill: 'black'}}
+          svg={{fontSize: 8, fill: 'black'}}
         />
       </View>
     );
