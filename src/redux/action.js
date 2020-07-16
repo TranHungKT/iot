@@ -92,6 +92,7 @@ export const getDeviceDetail = (index, device_name) => (dispatch) => {
   } else if (index == 5) {
     device_type = 'LightD';
   }
+  dispatch({type: LOADING});
   return fetch('https://iotserver192.herokuapp.com/getStatusNoLogin', {
     method: 'POST',
     headers: {'content-type': 'application/json'},

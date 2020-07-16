@@ -16,12 +16,19 @@ const initialState = {
   device_type_motor: [],
   device_type_speaker: [],
   device_type_lightD: [],
+  loading: false,
 };
 export default function (state = initialState, action) {
   switch (action.type) {
+    case LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
     case GET_DEVICE_TYPE_AIR:
       return {
         ...state,
+
         device_type_air_conditioner: action.payload,
       };
     case GET_DEVICE_TYPE_MOTOR:
@@ -66,6 +73,7 @@ export default function (state = initialState, action) {
       }
       return {
         ...state,
+        loading: false,
       };
     case GET_DEVICE_TYPE_LIGHT:
       return {

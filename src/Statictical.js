@@ -4,7 +4,7 @@ import HeaderComponent from './component/HeaderComponent';
 import moment from 'moment';
 import {LineChart, YAxis, Grid, XAxis} from 'react-native-svg-charts';
 import {connect} from 'react-redux';
-
+import {Spinner} from 'native-base';
 const styles = StyleSheet.create({
   title: {
     flex: 0.1,
@@ -116,7 +116,7 @@ class Statictical extends Component {
     const contentInset = {top: 10, bottom: 10};
     const {data, time} = this.state;
 
-    return (
+    return this.props.reducer.loading == false ? (
       <View style={{flex: 1}}>
         <HeaderComponent style={{flex: 0.2}} />
         <View style={styles.title}>
@@ -153,6 +153,11 @@ class Statictical extends Component {
           svg={{fontSize: 8, fill: 'black'}}
         />
       </View>
+    ) : (
+      <Spinner
+        color="red"
+        style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+      />
     );
   }
 }

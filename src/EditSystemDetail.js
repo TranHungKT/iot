@@ -14,6 +14,7 @@ import HeaderComponent from './component/HeaderComponent';
 import {ListItem, Left, Body, Right, Icon, Switch} from 'native-base';
 import {getDeviceDetail} from './redux/action';
 import {connect} from 'react-redux';
+import moment from 'moment';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
@@ -151,6 +152,18 @@ class EditSystemDetail extends Component {
     if (value2 == 'default') {
       value2 = 1;
     }
+    if (
+      moment(schedule_on, 'HH:mm', true).isValid() == false ||
+      moment(schedule_off, 'HH:mm', true).isValid() == false
+    ) {
+      Alert.alert(
+        'Thông báo',
+        'Bạn hãy nhập lại thời gian',
+        [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+        {cancelable: false},
+      );
+      return;
+    }
     fetch('https://iotserver192.herokuapp.com/changeSettingNoLogin', {
       method: 'POST',
       headers: {'content-type': 'application/json'},
@@ -252,7 +265,7 @@ class EditSystemDetail extends Component {
               )}
             </Right>
           </ListItem>
-          {this.state.mode == 'AUTO' ? (
+          {this.state.mode == 'SCHEDULE' ? (
             <>
               <ListItem icon>
                 <Left>
@@ -366,7 +379,7 @@ class EditSystemDetail extends Component {
               )}
             </Right>
           </ListItem>
-          {this.state.mode == 'AUTO' ? (
+          {this.state.mode == 'SCHEDULE' ? (
             <>
               <ListItem icon>
                 <Left>
@@ -463,7 +476,7 @@ class EditSystemDetail extends Component {
               )}
             </Right>
           </ListItem>
-          {this.state.mode == 'AUTO' ? (
+          {this.state.mode == 'SCHEDULE' ? (
             <>
               <ListItem icon>
                 <Left>
@@ -560,7 +573,7 @@ class EditSystemDetail extends Component {
               )}
             </Right>
           </ListItem>
-          {this.state.mode == 'AUTO' ? (
+          {this.state.mode == 'SCHEDULE' ? (
             <>
               <ListItem icon>
                 <Left>
@@ -653,7 +666,7 @@ class EditSystemDetail extends Component {
               )}
             </Right>
           </ListItem>
-          {this.state.mode == 'AUTO' ? (
+          {this.state.mode == 'SCHEDULE' ? (
             <>
               <ListItem icon>
                 <Left>
