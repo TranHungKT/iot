@@ -16,7 +16,7 @@ import Mode from './component/Mode';
 import {getDeviceDetail} from './redux/action';
 import {connect} from 'react-redux';
 import moment from 'moment';
-
+import Auto from './component/Auto';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 const styles = StyleSheet.create({
@@ -227,9 +227,9 @@ class EditSystemDetail extends Component {
       });
     }
   };
-
-  chooseMode;
-
+  getValue1 = (tempvalue1) => {
+    this.setState({value1: tempvalue1});
+  };
   render() {
     const nameTitle = [
       'HỆ THỐNG MÁY LẠNH',
@@ -241,6 +241,7 @@ class EditSystemDetail extends Component {
     ];
     const {index, name} = this.props.navigation.state.params;
     let drop = ['AUTO', 'ON', 'OFF', 'SCHEDULE'];
+    const {mode, value1, value2, schedule_on, schedule_off} = this.state;
     return this.state.isLoading == true ? (
       <ScrollView
         style={{flex: 1}}
@@ -250,10 +251,8 @@ class EditSystemDetail extends Component {
           <Text style={styles.textTitle}>{nameTitle[index]}</Text>
           <Text style={styles.textId}>{name}</Text>
         </View>
-        {/* <View style={{flex: 0.5}}>{body}</View> */}
-        {/* <Mode chooseMode={this.chooseMode} /> */}
         <View style={{flex: 0.5}}>
-          <View style={styles.mode}>
+          <View style={[styles.mode]}>
             <Mode
               chooseMode={this.chooseMode}
               nameIcon={'ios-power'}
@@ -263,6 +262,15 @@ class EditSystemDetail extends Component {
               mode={this.state.mode}
             />
           </View>
+          <Auto
+            // style={{flex: 0.2}}
+            nameIcon1={'water'}
+            nameTitle1={'độ ẩm'}
+            value1={value1}
+            value2={value2}
+            changeValue1={this.changeValue1}
+            getValue1={this.getValue1}
+          />
         </View>
         <View
           style={{

@@ -1,6 +1,13 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  TouchableHighlight,
+} from 'react-native';
 import {Icon} from 'native-base';
+
 export default class Mode extends Component {
   constructor(props) {
     super(props);
@@ -32,17 +39,20 @@ export default class Mode extends Component {
           {this.props.status_of_air == true ? (
             <View style={styles.viewOption}>
               {options.map((option, key) => (
-                <TouchableOpacity
+                <TouchableHighlight
                   key={key}
                   style={styles.options}
-                  onPress={this.chooseMode(option)}>
+                  onPress={this.chooseMode(option)}
+                  underlayColor="#DDDDDD">
                   <Text style={styles.textOption}>{option}</Text>
-                </TouchableOpacity>
+                </TouchableHighlight>
               ))}
             </View>
           ) : (
             <View style={{flex: 0.4, flexDirection: 'row'}}>
-              <TouchableOpacity style={styles.modeView}>
+              <TouchableOpacity
+                style={styles.modeView}
+                onPress={this.props.toggleAir}>
                 <Text style={{alignSelf: 'flex-end'}}>{this.props.mode}</Text>
               </TouchableOpacity>
               <Icon
@@ -53,9 +63,8 @@ export default class Mode extends Component {
             </View>
           )}
         </View>
-        {this.props.status_of_air == false ? (
-          <View style={styles.border}></View>
-        ) : null}
+
+        <View style={styles.border}></View>
       </View>
     );
   }
@@ -73,6 +82,8 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     flexDirection: 'column',
     alignSelf: 'flex-end',
+    backgroundColor: '#fff',
+    zIndex: 99,
   },
   textOption: {
     fontSize: 10,
