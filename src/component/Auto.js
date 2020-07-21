@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TextInput} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableHighlight,
+} from 'react-native';
 import {Icon} from 'native-base';
 
 const styles = StyleSheet.create({
@@ -34,6 +40,7 @@ export default class Auto extends Component {
     super(props);
     this.state = {
       tempValue1: '',
+      tempValue2: '',
     };
   }
 
@@ -42,29 +49,73 @@ export default class Auto extends Component {
     this.props.getValue1(tempValue1);
   };
 
+  changeValue2 = (tempValue2) => {
+    this.setState({tempValue2: tempValue2});
+    this.props.getValue2(tempValue2);
+  };
+
   render() {
-    const {value1, value2} = this.props;
+    const {value1, value2, index, mode} = this.props;
+    let title1 =
+      index == 0
+        ? 'độ ẩm'
+        : index == 1
+        ? 'cường độ ánh sáng'
+        : index == 2
+        ? 'độ ẩm'
+        : index == 4
+        ? 'độ ẩm'
+        : 'cường độ ánh sáng';
+    let icon2 = 'thermometer';
+    let icon =
+      index == 0
+        ? 'water'
+        : index == 1
+        ? 'light-bulb'
+        : index == 2
+        ? 'water'
+        : index == 4
+        ? 'water'
+        : 'light-bulb';
+
+    let title2 = 'nhiệt độ';
+    let module2 =
+      index == 0 ? (
+        mode == 'AUTO' ? (
+          <View style={styles.moduleView}>
+            <View style={styles.titleView}>
+              <Icon name={icon2} type="Entypo" style={styles.icon} />
+              <Text>Điều chỉnh ngưỡng {title2}</Text>
+            </View>
+            <View style={styles.textInput}>
+              <TextInput
+                defaultValue={`${this.props.value1}`}
+                onFocus={this.props.changeValue2}
+                onChangeText={(tempValue2) => this.changeValue2(tempValue2)}
+                keyboardType="decimal-pad"></TextInput>
+            </View>
+          </View>
+        ) : null
+      ) : null;
+
     return (
       <View style={styles.mainView}>
-        <View style={styles.moduleView}>
-          <View style={styles.titleView}>
-            <Icon
-              name={this.props.nameIcon1}
-              type="Entypo"
-              style={styles.icon}
-            />
-            <Text>Điều chỉnh ngưỡng {this.props.nameTitle1}</Text>
+        {mode == 'AUTO' ? (
+          <View style={styles.moduleView}>
+            <View style={styles.titleView}>
+              <Icon name={icon} type="Entypo" style={styles.icon} />
+              <Text>Điều chỉnh ngưỡng {title1}</Text>
+            </View>
+            <View style={styles.textInput}>
+              <TextInput
+                defaultValue={`${this.props.value1}`}
+                onFocus={this.props.changeValue1}
+                onChangeText={(tempValue1) => this.changeValue1(tempValue1)}
+                keyboardType="decimal-pad"></TextInput>
+            </View>
           </View>
-          <View style={styles.textInput}>
-            <TextInput
-              containerStyle={{flexGrow: 1, alignItems: 'center'}}
-              onFocus={this.props.changeValue1}
-              onChangeText={(tempValue1) => this.changeValue1(tempValue1)}
-              defaultValue={`${value1}`}
-              value={this.state.tempValue1}
-            />
-          </View>
-        </View>
+        ) : null}
+        {module2}
       </View>
     );
   }

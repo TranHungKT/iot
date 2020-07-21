@@ -7,12 +7,11 @@ import {
   ScrollView,
   TouchableOpacity,
   Dimensions,
-  TouchableHighlight,
   Alert,
 } from 'react-native';
 import HeaderComponent from './component/HeaderComponent';
-import {ListItem, Left, Body, Right, Icon, Switch} from 'native-base';
 import Mode from './component/Mode';
+import Schedule from './component/Schedule';
 import {getDeviceDetail} from './redux/action';
 import {connect} from 'react-redux';
 import moment from 'moment';
@@ -230,6 +229,17 @@ class EditSystemDetail extends Component {
   getValue1 = (tempvalue1) => {
     this.setState({value1: tempvalue1});
   };
+  getValue2 = (tempValue2) => {
+    this.setState({value2: tempValue2});
+  };
+
+  getScheduleOn = (schedule_on) => {
+    this.setState({schedule_on: schedule_on});
+  };
+  getScheduleOff = (schedule_off) => {
+    this.setState({schedule_off: schedule_off});
+  };
+
   render() {
     const nameTitle = [
       'HỆ THỐNG MÁY LẠNH',
@@ -242,6 +252,27 @@ class EditSystemDetail extends Component {
     const {index, name} = this.props.navigation.state.params;
     let drop = ['AUTO', 'ON', 'OFF', 'SCHEDULE'];
     const {mode, value1, value2, schedule_on, schedule_off} = this.state;
+    let tempMode =
+      mode == 'AUTO' ? (
+        <Auto
+          value1={value1}
+          value2={value2}
+          changeValue1={this.changeValue1}
+          changeValue2={this.changeValue2}
+          getValue1={this.getValue1}
+          index={index}
+          mode={mode}
+          getValue2={this.getValue2}
+        />
+      ) : mode == 'SCHEDULE' ? (
+        <Schedule
+          mode={mode}
+          schedule_on={schedule_on}
+          schedule_off={schedule_off}
+          getScheduleOn={this.getScheduleOn}
+          getScheduleOff={this.getScheduleOff}
+        />
+      ) : null;
     return this.state.isLoading == true ? (
       <ScrollView
         style={{flex: 1}}
@@ -256,21 +287,12 @@ class EditSystemDetail extends Component {
             <Mode
               chooseMode={this.chooseMode}
               nameIcon={'ios-power'}
-              nameType={'điều hoà'}
               status_of_air={this.state.status_of_air}
               toggleAir={this.toggleAir}
               mode={this.state.mode}
             />
           </View>
-          <Auto
-            // style={{flex: 0.2}}
-            nameIcon1={'water'}
-            nameTitle1={'độ ẩm'}
-            value1={value1}
-            value2={value2}
-            changeValue1={this.changeValue1}
-            getValue1={this.getValue1}
-          />
+          {tempMode}
         </View>
         <View
           style={{

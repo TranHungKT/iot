@@ -35,7 +35,7 @@ export default class Mode extends Component {
             type="Ionicons"
             style={styles.icon}
           />
-          <Text style={styles.text}>Chọn chế độ {this.props.nameType}</Text>
+          <Text style={styles.text}>Chọn chế độ</Text>
           {this.props.status_of_air == true ? (
             <View style={styles.viewOption}>
               {options.map((option, key) => (
