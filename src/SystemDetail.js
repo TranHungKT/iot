@@ -3,14 +3,21 @@ import {
   View,
   Text,
   StyleSheet,
-  StatusBar,
-  TouchableOpacity,
+  ScrollView,
+  RefreshControl,
   FlatList,
 } from 'react-native';
 
 import HeaderComponent from './component/HeaderComponent';
 import CardDetail from './component/CardDetail';
 import {connect} from 'react-redux';
+import {
+  getDeviceTypeAir,
+  getDeviceTypeMotor,
+  getDeviceTypeLight,
+  getDeviceTypeSpeaker,
+  getDeviceTypeLightD,
+} from './redux/action';
 const styles = StyleSheet.create({
   titleView: {
     flex: 0.1,
@@ -40,7 +47,9 @@ const styles = StyleSheet.create({
 class SystemDetail extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      refreshing: false,
+    };
   }
   renderItem = ({item}) => (
     <CardDetail
@@ -49,6 +58,23 @@ class SystemDetail extends Component {
       index={this.props.navigation.state.params.index}
     />
   );
+
+  onRefresh = () => {
+    const {index} = this.props.navigation.state.params;
+    this.setState({refreshing: true});
+    if (index == 0) {
+      this.props.getDeviceTypeAir();
+    } else if (index == 1) {
+      this.props.getDeviceTypeLight();
+    } else if (index == 2) {
+      this.props.getDeviceTypeMotor();
+    } else if (index == 4) {
+      this.props.getDeviceTypeSpeaker();
+    } else if (index == 5) {
+      this.props.getDeviceTypeLightD();
+    }
+    this.setState({refreshing: false});
+  };
 
   render() {
     const nameTitle = [
@@ -61,6 +87,7 @@ class SystemDetail extends Component {
     ];
     const {index} = this.props.navigation.state.params;
     const {reducer} = this.props;
+    const {refreshing} = this.state;
     let DATA;
     if (index == 0) {
       DATA = reducer.device_type_air_conditioner;
@@ -74,7 +101,11 @@ class SystemDetail extends Component {
       DATA = reducer.device_type_lightD;
     }
     return (
-      <View style={{flex: 1}}>
+      <ScrollView
+        contentContainerStyle={{flex: 1}}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />
+        }>
         <HeaderComponent style={{flex: 0.2}} />
         <View style={styles.titleView}>
           <Text style={styles.textTitle}>{nameTitle[index]}</Text>
@@ -86,7 +117,7 @@ class SystemDetail extends Component {
             keyExtractor={(item) => item.device_id}
           />
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -95,4 +126,11 @@ const mapStateToProps = (state) => ({
   reducer: state.reducer,
 });
 
-export default connect(mapStateToProps)(SystemDetail);
+const mapActionToProps = {
+  getDeviceTypeAir,
+  getDeviceTypeMotor,
+  getDeviceTypeLight,
+  getDeviceTypeSpeaker,
+  getDeviceTypeLightD,
+};
+export default connect(mapStateToProps, mapActionToProps)(SystemDetail);

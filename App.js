@@ -34,8 +34,14 @@ const HomeContainer = createStackNavigator({
       headerShown: false,
     },
   },
-  swithNavigator: {
-    screen: swithNavigator,
+  SystemDetail: {
+    screen: SystemDetail,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  EditSystemDetail: {
+    screen: EditSystemDetail,
     navigationOptions: {
       headerShown: false,
     },

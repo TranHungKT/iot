@@ -11,6 +11,7 @@
     "postinstall": "jetifier -r"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "^2.6.0",
     "@react-native-community/masked-view": "^0.1.10",
     "axios": "^0.19.2",
     "moment": "^2.27.0",

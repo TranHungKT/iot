@@ -31,6 +31,11 @@ class Statictical extends Component {
       time: [],
     };
   }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.reducer.loading !== false) {
+      this.loadData();
+    }
+  }
   loadData = () => {
     const {name, index} = this.props.navigation.state.params;
     const {reducer} = this.props;
@@ -122,9 +127,7 @@ class Statictical extends Component {
         <View style={styles.title}>
           <Text style={styles.titleText}>Thống kê {name}</Text>
         </View>
-        <TouchableOpacity onPress={this.loadData} style={styles.loadData}>
-          <Text>LOAD DATA</Text>
-        </TouchableOpacity>
+
         <View style={{height: 300, flexDirection: 'row'}}>
           <YAxis
             data={data}
