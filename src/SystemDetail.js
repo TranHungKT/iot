@@ -55,7 +55,7 @@ class SystemDetail extends Component {
   }
   componentDidMount() {
     this.onRefresh();
-    setInterval(this.onRefresh, 5000);
+    setInterval(this.onRefresh, 10000);
   }
 
   renderItem = ({item}) => (
