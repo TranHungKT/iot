@@ -31,8 +31,9 @@ class Statictical extends Component {
       time: [],
     };
   }
+
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.reducer.loading !== false) {
+    if (this.props.reducer.loading !== prevProps.reducer.loading) {
       this.loadData();
     }
   }
@@ -72,7 +73,7 @@ class Statictical extends Component {
     let intensity1 = [];
     if (data && data.length) {
       for (let i = 0; i < data.length; i++) {
-        time.push(moment(data[i].time).format('L'));
+        time.push(moment(data[i].time).format('DD/MM'));
         if (index == 0) {
           temp.push(data[i].temperature);
         } else if (index == 1) {
@@ -149,10 +150,10 @@ class Statictical extends Component {
           </LineChart>
         </View>
         <XAxis
-          style={{marginLeft: 10}}
+          style={{marginLeft: 25}}
           data={this.state.time}
           formatLabel={(value, index) => time[index]}
-          contentInset={{left: 30, right: 30}}
+          contentInset={{left: 12, right: 12}}
           svg={{fontSize: 8, fill: 'black'}}
         />
       </View>

@@ -6,6 +6,7 @@ import {
   ScrollView,
   RefreshControl,
   FlatList,
+  Alert,
 } from 'react-native';
 
 import HeaderComponent from './component/HeaderComponent';
@@ -49,8 +50,14 @@ class SystemDetail extends Component {
     super(props);
     this.state = {
       refreshing: false,
+      timePassed: false,
     };
   }
+  componentDidMount() {
+    this.onRefresh();
+    setInterval(this.onRefresh, 5000);
+  }
+
   renderItem = ({item}) => (
     <CardDetail
       item={item}
@@ -61,7 +68,7 @@ class SystemDetail extends Component {
 
   onRefresh = () => {
     const {index} = this.props.navigation.state.params;
-    this.setState({refreshing: true});
+
     if (index == 0) {
       this.props.getDeviceTypeAir();
     } else if (index == 1) {
@@ -104,7 +111,11 @@ class SystemDetail extends Component {
       <ScrollView
         contentContainerStyle={{flex: 1}}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={this.onRefresh}
+            style={{marginTop: 10}}
+          />
         }>
         <HeaderComponent style={{flex: 0.2}} />
         <View style={styles.titleView}>

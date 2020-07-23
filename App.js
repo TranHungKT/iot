@@ -11,21 +11,7 @@ import Statictical from './src/Statictical';
 import SettingPage from './src/SettingPage';
 import {Provider} from 'react-redux';
 import store from './src/redux/store';
-
-const swithNavigator = createSwitchNavigator({
-  SystemDetail: {
-    screen: SystemDetail,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-  EditSystemDetail: {
-    screen: EditSystemDetail,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-});
+import Login from './src/Login';
 
 const HomeContainer = createStackNavigator({
   HomeScreen: {
@@ -59,8 +45,21 @@ const HomeContainer = createStackNavigator({
     },
   },
 });
-
-const AppContainer = createAppContainer(HomeContainer);
+const swithNavigator = createSwitchNavigator({
+  Login: {
+    screen: Login,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  HomeContainer: {
+    screen: HomeContainer,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+});
+const AppContainer = createAppContainer(swithNavigator);
 
 export default class App extends Component {
   constructor(props) {

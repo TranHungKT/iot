@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import HeaderComponent from './component/HeaderComponent';
 import {ListItem, Left, Body, Right, Icon} from 'native-base';
-
+import Schedule from './component/Schedule';
 const styles = StyleSheet.create({
   text: {
     fontSize: 18,
@@ -42,30 +42,58 @@ export default class SettingPage extends Component {
       humid_of_land: '',
       light_value: '',
       temp: '',
+      schedule_on: '',
+      schedule_off: '',
     };
   }
   componentDidMount() {
-    return fetch('https://iotserver192.herokuapp.com/getDefaultNoLogin', {
+    return fetch('https://iotserver192.herokuapp.com/getDefault', {
       method: 'POST',
       headers: {'content-type': 'application/json'},
       body: JSON.stringify({}),
     })
       .then((response) => response.json())
       .then((json) => {
-        console.log(json);
         this.setState({
-          humid_of_air: json.humid,
-          humid_of_land: json.plant,
-          light_value: json.light,
-          temp: json.temp,
           isLoading: true,
         });
-        return true;
+        if (json.humid == -1) {
+          this.setState({humid_of_air: 'default'});
+        } else {
+          this.setState({humid_of_air: json.humid});
+        }
+        if (json.plant == -1) {
+          this.setState({humid_of_land: 'default'});
+        } else {
+          this.setState({humid_of_land: json.plant});
+        }
+        if (json.temp == -1) {
+          this.setState({temp: 'default'});
+        } else {
+          this.setState({temp: json.temp});
+        }
+        if (json.light == -1) {
+          this.setState({light_value: 'default'});
+        } else {
+          this.setState({light_value: json.light});
+        }
       })
       .catch((err) => err);
   }
   save = (humid_of_air, humid_of_land, light_value, temp) => {
-    fetch('https://iotserver192.herokuapp.com/setDefaultNoLogin', {
+    if (humid_of_air == '') {
+      humid_of_air = -1;
+    }
+    if (humid_of_land == '') {
+      humid_of_land = -1;
+    }
+    if (light_value == '') {
+      light_value = -1;
+    }
+    if (temp == '') {
+      temp = -1;
+    }
+    fetch('https://iotserver192.herokuapp.com/setDefault', {
       method: 'POST',
       headers: {'content-type': 'application/json'},
       body: JSON.stringify({
@@ -77,29 +105,14 @@ export default class SettingPage extends Component {
     })
       .then((response) => {
         if (response.status == 200) {
-          Alert.alert(
-            'Thông báo',
-            'Điều chỉnh thành công',
-            [
-              {
-                text: 'Cancel',
-              },
-              {text: 'OK'},
-            ],
-            {cancelable: false},
-          );
+          Alert.alert('Thông báo', 'Điều chỉnh thành công', [{text: 'OK'}], {
+            cancelable: false,
+          });
         } else {
           Alert.alert(
             'Thông báo',
             'Bạn hãy điền đầy đủ thông tin',
-            [
-              {
-                text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
-                style: 'cancel',
-              },
-              {text: 'OK', onPress: () => console.log('OK Pressed')},
-            ],
+            [{text: 'OK', onPress: () => console.log('OK Pressed')}],
             {cancelable: false},
           );
         }
@@ -108,7 +121,14 @@ export default class SettingPage extends Component {
   };
 
   render() {
-    const {humid_of_air, humid_of_land, light_value, temp} = this.state;
+    const {
+      humid_of_air,
+      humid_of_land,
+      light_value,
+      temp,
+      schedule_on,
+      schedule_off,
+    } = this.state;
     return this.state.isLoading == true ? (
       <KeyboardAvoidingView style={{flex: 1}}>
         <HeaderComponent style={{flex: 0.2}} />
@@ -124,6 +144,7 @@ export default class SettingPage extends Component {
           </Body>
           <Right>
             <TextInput
+              placeholder="default"
               defaultValue={`${this.state.humid_of_air}`}
               onChangeText={(humid_of_air) => this.setState({humid_of_air})}
               value={humid_of_air}
@@ -139,6 +160,7 @@ export default class SettingPage extends Component {
           </Body>
           <Right>
             <TextInput
+              placeholder="default"
               defaultValue={`${this.state.humid_of_land}`}
               onChangeText={(humid_of_land) => this.setState({humid_of_land})}
               value={humid_of_land}
@@ -158,6 +180,7 @@ export default class SettingPage extends Component {
           </Body>
           <Right>
             <TextInput
+              placeholder="default"
               defaultValue={`${this.state.light_value}`}
               onChangeText={(light_value) => this.setState({light_value})}
               value={light_value}
@@ -177,6 +200,7 @@ export default class SettingPage extends Component {
           </Body>
           <Right>
             <TextInput
+              placeholder="default"
               defaultValue={`${this.state.temp}`}
               onChangeText={(temp) => this.setState({temp})}
               value={temp}

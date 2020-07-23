@@ -49,6 +49,9 @@ export default class Auto extends Component {
 
   changeValue2 = (tempValue2) => {
     this.setState({tempValue2: tempValue2});
+    if (tempValue2 == '') {
+      tempValue2 = -1;
+    }
     this.props.getValue2(tempValue2);
   };
 
@@ -87,6 +90,7 @@ export default class Auto extends Component {
             </View>
             <View style={styles.textInput}>
               <TextInput
+                placeholder="default"
                 defaultValue={`${this.props.value2}`}
                 onFocus={this.props.changeValue2}
                 onChangeText={(tempValue2) => this.changeValue2(tempValue2)}
@@ -108,6 +112,7 @@ export default class Auto extends Component {
             <View style={styles.textInput}>
               <TextInput
                 defaultValue={`${this.props.value1}`}
+                placeholder="default"
                 onFocus={this.props.changeValue1}
                 onChangeText={(tempValue1) => this.changeValue1(tempValue1)}
                 keyboardType="decimal-pad"

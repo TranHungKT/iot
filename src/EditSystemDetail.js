@@ -32,7 +32,7 @@ class EditSystemDetail extends Component {
     };
   }
   componentDidMount() {
-    return fetch('https://iotserver192.herokuapp.com/getSettingNoLogin', {
+    return fetch('https://iotserver192.herokuapp.com/getSetting', {
       method: 'POST',
       headers: {'content-type': 'application/json'},
       body: JSON.stringify({
@@ -101,12 +101,13 @@ class EditSystemDetail extends Component {
     } else {
       name = this.props.navigation.state.params.name;
     }
-    if (value1 == 'default') {
+    if (value1 == 'default' || value1 == '') {
       value1 = -1;
     }
-    if (value2 == 'default') {
-      value2 = 1;
+    if (value2 == 'default' || value2 == '') {
+      value2 = -1;
     }
+
     if (
       moment(schedule_on, 'HH:mm', true).isValid() == false ||
       moment(schedule_off, 'HH:mm', true).isValid() == false
@@ -119,7 +120,7 @@ class EditSystemDetail extends Component {
       );
       return;
     }
-    fetch('https://iotserver192.herokuapp.com/changeSettingNoLogin', {
+    fetch('https://iotserver192.herokuapp.com/changeSetting', {
       method: 'POST',
       headers: {'content-type': 'application/json'},
       body: JSON.stringify({

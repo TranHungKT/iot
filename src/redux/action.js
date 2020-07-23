@@ -11,7 +11,7 @@ import {
 
 export const getDeviceTypeAir = () => (dispatch) => {
   // dispatch({type: LOADING});
-  return fetch('https://iotserver192.herokuapp.com/getStatusNoLogin', {
+  return fetch('https://iotserver192.herokuapp.com/getStatus', {
     method: 'POST',
     headers: {'content-type': 'application/json'},
     body: JSON.stringify({device_type: 'AIR_CONDITIONER', device_name: ''}),
@@ -25,7 +25,7 @@ export const getDeviceTypeAir = () => (dispatch) => {
 };
 
 export const getDeviceTypeMotor = () => (dispatch) => {
-  return fetch('https://iotserver192.herokuapp.com/getStatusNoLogin', {
+  return fetch('https://iotserver192.herokuapp.com/getStatus', {
     method: 'POST',
     headers: {'content-type': 'application/json'},
     body: JSON.stringify({device_type: 'MOTOR', device_name: ''}),
@@ -39,7 +39,7 @@ export const getDeviceTypeMotor = () => (dispatch) => {
 };
 
 export const getDeviceTypeLight = () => (dispatch) => {
-  return fetch('https://iotserver192.herokuapp.com/getStatusNoLogin', {
+  return fetch('https://iotserver192.herokuapp.com/getStatus', {
     method: 'POST',
     headers: {'content-type': 'application/json'},
     body: JSON.stringify({device_type: 'LIGHT_BULB', device_name: ''}),
@@ -53,7 +53,7 @@ export const getDeviceTypeLight = () => (dispatch) => {
 };
 
 export const getDeviceTypeSpeaker = () => (dispatch) => {
-  return fetch('https://iotserver192.herokuapp.com/getStatusNoLogin', {
+  return fetch('https://iotserver192.herokuapp.com/getStatus', {
     method: 'POST',
     headers: {'content-type': 'application/json'},
     body: JSON.stringify({device_type: 'Speaker', device_name: ''}),
@@ -66,7 +66,7 @@ export const getDeviceTypeSpeaker = () => (dispatch) => {
     .catch((err) => console.log(err));
 };
 export const getDeviceTypeLightD = () => (dispatch) => {
-  return fetch('https://iotserver192.herokuapp.com/getStatusNoLogin', {
+  return fetch('https://iotserver192.herokuapp.com/getStatus', {
     method: 'POST',
     headers: {'content-type': 'application/json'},
     body: JSON.stringify({device_type: 'LightD', device_name: ''}),
@@ -93,7 +93,7 @@ export const getDeviceDetail = (index, device_name) => (dispatch) => {
     device_type = 'LightD';
   }
   dispatch({type: LOADING});
-  return fetch('https://iotserver192.herokuapp.com/getStatusNoLogin', {
+  return fetch('https://iotserver192.herokuapp.com/getStatus', {
     method: 'POST',
     headers: {'content-type': 'application/json'},
     body: JSON.stringify({

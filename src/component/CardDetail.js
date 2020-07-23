@@ -31,34 +31,42 @@ export default class CardDetail extends Component {
     body =
       index == 0 ? (
         <Body>
-          <Text style={{textAlign: 'left'}}>Nhiệt độ : {temp}</Text>
-          <Text style={{textAlign: 'left'}}>Độ ẩm : {humid}</Text>
+          <Text style={{textAlign: 'left'}}>
+            Giá trị cảm biến nhiệt độ : {temp}
+          </Text>
+          <Text style={{textAlign: 'left'}}>
+            Giá trị cảm biến độ ẩm đất: {humid}
+          </Text>
           <Text style={{textAlign: 'left'}}>Trạng thái máy lạnh: {status}</Text>
         </Body>
       ) : index == 1 ? (
         <Body>
           <Text style={{textAlign: 'left'}}>
-            Cường độ bóng đèn : {intensity}
+            Giá trị cảm biến ánh sáng : {intensity}
           </Text>
           <Text style={{textAlign: 'left'}}>Trạng thái bóng đèn: {status}</Text>
         </Body>
       ) : index == 2 ? (
         <Body>
-          <Text style={{textAlign: 'left'}}>Độ ẩm đất : {humid}</Text>
+          <Text style={{textAlign: 'left'}}>
+            Giá trị cảm biến độ ẩm đất: {humid}
+          </Text>
           <Text style={{textAlign: 'left'}}>Trạng thái motor : {status}</Text>
         </Body>
       ) : index == 4 ? (
         <Body>
-          <Text style={{textAlign: 'left'}}>Độ ẩm đất : {humid}</Text>
+          <Text style={{textAlign: 'left'}}>
+            Giá trị cảm biến độ ẩm đất: {humid}
+          </Text>
           <Text style={{textAlign: 'left'}}>Trạng thái speaker: {status}</Text>
           <Text style={{textAlign: 'left'}}>Chế độ : {mode}</Text>
         </Body>
       ) : index == 5 ? (
         <Body>
           <Text style={{textAlign: 'left'}}>
-            cường độ bóng đèn : {intensity}
+            Giá trị cảm biến ánh sáng : {intensity}
           </Text>
-          <Text style={{textAlign: 'left'}}>Trạng thái speaker: {status}</Text>
+          <Text style={{textAlign: 'left'}}>Trạng thái đèn: {status}</Text>
           <Text style={{textAlign: 'left'}}>Chế độ : {mode}</Text>
         </Body>
       ) : null;

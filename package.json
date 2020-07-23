@@ -48,5 +48,5 @@
   "jest": {
     "preset": "react-native"
   },
-  "proxy": "iotserver192.herokuapp.com/getStatusNoLogin"
+  "proxy": "iotserver192.herokuapp.com/getStatus"
 }
