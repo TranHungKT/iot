@@ -49,9 +49,6 @@ export default class Auto extends Component {
 
   changeValue2 = (tempValue2) => {
     this.setState({tempValue2: tempValue2});
-    if (tempValue2 == '') {
-      tempValue2 = -1;
-    }
     this.props.getValue2(tempValue2);
   };
 
